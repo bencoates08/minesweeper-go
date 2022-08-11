@@ -17,17 +17,17 @@ func main() {
 
 	println()
 
-	boardDisplay.GetPositionsFromReveal(boardState.GetPosition(0, 11), boardState, make([]Position, 0))
+	boardDisplay.Reveal(boardState.GetPosition(0, 11), boardState)
 	boardDisplay.Print(boardState)
 
 	println()
 
-	boardDisplay.GetPositionsFromReveal(boardState.GetPosition(0, 1), boardState, make([]Position, 0))
+	boardDisplay.Reveal(boardState.GetPosition(0, 1), boardState)
 	boardDisplay.Print(boardState)
 
 	println()
 
-	boardDisplay.GetPositionsFromReveal(boardState.GetPosition(15, 14), boardState, make([]Position, 0))
+	boardDisplay.Reveal(boardState.GetPosition(15, 14), boardState)
 	boardDisplay.Print(boardState)
 
 	// boardDisplay.FlagPosition(Position{Row: 1, Col: 3, Val: "F"})

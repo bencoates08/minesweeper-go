@@ -18,13 +18,12 @@ func NewBoardDisplay(boardSettings BoardSettings) BoardDisplay {
 	return boardDisplay
 }
 
-func (boardDisplay BoardDisplay) GetPositionsFromReveal(position Position, boardState BoardState, revealedPositions []Position) []Position {
+func (boardDisplay BoardDisplay) Reveal(position Position, boardState BoardState) {
 	if position.Val == CELL_BOMB {
-		return append(revealedPositions, position)
+		return
 	}
 
 	if !visitedCell(boardDisplay, position) {
-		revealedPositions = append(revealedPositions, position)
 		boardDisplay[position.Row][position.Col] = true
 
 		neighbouringPositions := boardState.getNeighbouringPositions(position)
@@ -32,9 +31,8 @@ func (boardDisplay BoardDisplay) GetPositionsFromReveal(position Position, board
 
 			if !visitedCell(boardDisplay, neighbouringPosition) {
 				if boardState[neighbouringPosition.Row][neighbouringPosition.Col] == CELL_EMPTY {
-					boardDisplay.GetPositionsFromReveal(neighbouringPosition, boardState, revealedPositions)
+					boardDisplay.Reveal(neighbouringPosition, boardState)
 				} else if position.Val == CELL_EMPTY {
-					revealedPositions = append(revealedPositions, neighbouringPosition)
 					boardDisplay[neighbouringPosition.Row][neighbouringPosition.Col] = true
 				}
 			}
@@ -43,7 +41,7 @@ func (boardDisplay BoardDisplay) GetPositionsFromReveal(position Position, board
 
 	}
 
-	return revealedPositions
+	return
 }
 
 func visitedCell(visitedPositions [][]bool, position Position) bool {
