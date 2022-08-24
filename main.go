@@ -10,25 +10,39 @@ import (
 
 func main() {
 	boardSettings := BoardSettings{Height: 20, Width: 30, Bombs: 80}
-	boardState := NewBoardState(boardSettings)
-	boardDisplay := NewBoardDisplay(boardSettings)
+	board := NewBoard(boardSettings)
 
-	boardState.Print()
+	board.PrintRevealedBoard()
+	board.Print()
 
+	// input := ""
+	// for input != "q" {
+	// 	println("Enter row: ")
+	// 	fmt.Scanln(&input)
+	// 	println("Enter col: ")
+	// 	fmt.Scanln(&input)
+
+	// 	row, _ := strconv.Atoi(input)
+	// 	col, _ := strconv.Atoi(input)
+	// 	boardDisplay.Reveal(boardState.GetPosition(col-1, row-1), boardState)
+	// 	boardDisplay.Print(boardState)
+	// }
+
+	board.Reveal(board.GetPosition(0, 0))
+	board.Print()
 	println()
 
-	boardDisplay.Reveal(boardState.GetPosition(0, 11), boardState)
-	boardDisplay.Print(boardState)
-
+	board.Reveal(board.GetPosition(0, 4))
+	board.Print()
 	println()
 
-	boardDisplay.Reveal(boardState.GetPosition(0, 1), boardState)
-	boardDisplay.Print(boardState)
-
+	board.Reveal(board.GetPosition(1, 2))
+	board.Print()
 	println()
 
-	boardDisplay.Reveal(boardState.GetPosition(15, 14), boardState)
-	boardDisplay.Print(boardState)
+	board.Reveal(board.GetPosition(15, 15))
+	board.Print()
+	println()
 
 	// boardDisplay.FlagPosition(Position{Row: 1, Col: 3, Val: "F"})
 

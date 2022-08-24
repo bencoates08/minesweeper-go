@@ -1,14 +1,14 @@
 package ports
 
-import "minesweeper-go/internal/core/domain"
+import "minesweeper-go/internal/core/domain/game"
 
 type GamesRepository interface {
-	Get(id string) (domain.Game, error)
-	Save(domain.Game) error
+	Get(id string) (game.Game, error)
+	Save(game.Game) error
 }
 
 type GamesService interface {
-	Get(id string) (domain.Game, error)
-	Create(name string, size uint, bombs uint) (domain.Game, error)
-	Reveal(id string, row uint, col uint) (domain.Game, error)
+	Get(id string) (game.Game, error)
+	Create(name string, size uint, bombs uint) (game.Game, error)
+	Reveal(id string, row uint, col uint) (game.Game, error)
 }
