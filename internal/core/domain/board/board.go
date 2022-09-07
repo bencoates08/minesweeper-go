@@ -1,7 +1,6 @@
 package board
 
 import (
-	"fmt"
 	"math/rand"
 	"strconv"
 )
@@ -169,27 +168,25 @@ func (b Board) isCellRevealed(position Position) bool {
 	return b.BoardVisibility[position.Row][position.Col]
 }
 
-// Prints the current view of the board.
-func (b Board) Print() {
-	for i, row := range b.BoardVisibility {
-		for j := range row {
-			if b.BoardVisibility[i][j] {
-				fmt.Print(CELL_HIDDEN)
-				print(" ")
+// Gets the current view of the board.
+func (b Board) GetVisibleBoard() [][]string {
+
+	visibleBoard := make([][]string, len(b.BoardValues))
+	for row := range visibleBoard {
+		visibleBoard[row] = make([]string, len(b.BoardValues[0]))
+	}
+
+	for row := range visibleBoard {
+		for col := range visibleBoard[0] {
+			if b.BoardVisibility[row][col] {
+				visibleBoard[row][col] = b.BoardValues[row][col]
 			} else {
-				fmt.Print(b.BoardValues[i][j])
-				print(" ")
+				visibleBoard[row][col] = CELL_HIDDEN
 			}
 		}
-		println()
 	}
-}
 
-// Prints the fully revealed board.
-func (b Board) PrintRevealedBoard() {
-	for _, row := range b.BoardValues {
-		fmt.Println(row)
-	}
+	return visibleBoard
 }
 
 // Get max of two integers.

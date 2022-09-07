@@ -23,7 +23,7 @@ func (hdl *HTTPHandler) Get(c *gin.Context) {
 		return
 	}
 
-	c.JSON(200, game)
+	c.JSON(200, BuildGameResponse(game))
 }
 
 func (hdl *HTTPHandler) Create(c *gin.Context) {
@@ -35,7 +35,7 @@ func (hdl *HTTPHandler) Create(c *gin.Context) {
 		return
 	}
 
-	c.JSON(200, game)
+	c.JSON(200, BuildGameResponse(game))
 }
 
 func (hdl *HTTPHandler) Reveal(c *gin.Context) {
@@ -47,5 +47,5 @@ func (hdl *HTTPHandler) Reveal(c *gin.Context) {
 		return
 	}
 
-	c.JSON(200, game)
+	c.JSON(200, BuildGameResponse(game))
 }
