@@ -6,10 +6,6 @@ import (
 	"minesweeper-go/internal/repositories/gameRepository"
 
 	"github.com/gin-gonic/gin"
-	// "minesweeper-go/internal/core/services/gameService"
-	// "minesweeper-go/internal/handlers/gameHandler"
-	// "minesweeper-go/internal/repositories/gameRepository"
-	// "github.com/gin-gonic/gin"
 )
 
 func main() {
