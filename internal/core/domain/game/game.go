@@ -27,7 +27,7 @@ func NewGame(id string, name string, height int, width int, bombs int) Game {
 }
 
 func (g *Game) Reveal(row int, col int) {
-	position := g.Board.GetPosition(row, col)
+	position := g.Board.GetPosition(row-1, col-1)
 	g.Board.Reveal(position)
 	g.PlayerView = g.Board.GetVisibleBoard()
 }
