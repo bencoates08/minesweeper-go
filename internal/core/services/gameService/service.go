@@ -41,3 +41,19 @@ func (srv *service) Create(name string, height int, width int, bombs int) (game.
 
 	return newGame, nil
 }
+
+func (srv *service) Reveal(id string, row int, col int) (game.Game, error) {
+	currentGame, err := srv.Get(id)
+	if err != nil {
+		return currentGame, err
+	}
+
+	currentGame.Reveal(row, col)
+
+	err = srv.gamesRepository.Save(currentGame)
+	if err != nil {
+		return currentGame, errors.New("failed to save the game")
+	}
+
+	return currentGame, nil
+}

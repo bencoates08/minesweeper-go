@@ -9,6 +9,6 @@ type GamesRepository interface {
 
 type GamesService interface {
 	Get(id string) (game.Game, error)
-	Create(name string, size uint, bombs uint) (game.Game, error)
-	Reveal(id string, row uint, col uint) (game.Game, error)
+	Create(name string, height int, width int, bombs int) (game.Game, error)
+	Reveal(id string, row int, col int) (game.Game, error)
 }

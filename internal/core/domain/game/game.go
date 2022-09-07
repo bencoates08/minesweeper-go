@@ -24,3 +24,8 @@ func NewGame(id string, name string, height int, width int, bombs int) Game {
 		Board:         NewBoard(boardSettings),
 	}
 }
+
+func (g *Game) Reveal(row int, col int) {
+	position := g.Board.GetPosition(row, col)
+	g.Board.Reveal(position)
+}
