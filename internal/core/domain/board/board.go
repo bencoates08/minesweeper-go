@@ -6,18 +6,6 @@ import (
 	"strconv"
 )
 
-type Board struct {
-	boardValues     [][]string
-	boardVisibility [][]bool
-}
-
-// TODO: Handle positions better maybe move position to own file
-type Position struct {
-	Row int
-	Col int
-	Val string
-}
-
 // TODO: handle flagging
 const (
 	CELL_EMPTY   = "-"
@@ -25,6 +13,17 @@ const (
 	CELL_HIDDEN  = "H"
 	CELL_FLAGGED = "F"
 )
+
+type Position struct {
+	Row int
+	Col int
+	Val string
+}
+
+type Board struct {
+	boardValues     [][]string
+	boardVisibility [][]bool
+}
 
 // TODO: ask question about returning
 // Create a new Minesweeper board used to track game state and display the board.
@@ -58,7 +57,7 @@ func NewBoard(boardSettings BoardSettings) Board {
 }
 
 // Randomly disperse bombs within boardValues
-func (b Board) addBombs(bombs int) {
+func (b *Board) addBombs(bombs int) {
 
 	// Initialize boardPositionsRemaining, a slice to track remaining positions to be filled with bombs.
 	// helps prevent randomly picking cells until a free cell is found.
@@ -126,7 +125,7 @@ func (b Board) getThreatLevel(position Position) int {
 // Calculate board threat levels.
 //
 // Calculate threat level for each cell on the board and store in boardValues.
-func (b Board) calculateBoardThreatLevels() {
+func (b *Board) calculateBoardThreatLevels() {
 	for row := range b.boardValues {
 		for col := range b.boardValues[0] {
 			if b.boardValues[row][col] == CELL_EMPTY {
@@ -145,7 +144,7 @@ func (b Board) calculateBoardThreatLevels() {
 // If the selected cell or one of its adjacent cells has 0 threat level then all
 // cells adjacent to the zero threat level cell are revealed. All adjacent 0 threat
 // level cells are revealed recursively i.e. a chunk of the board is revealed.
-func (b Board) Reveal(position Position) {
+func (b *Board) Reveal(position Position) {
 	if position.Val == CELL_BOMB {
 		return
 	}
@@ -163,12 +162,8 @@ func (b Board) Reveal(position Position) {
 					b.boardVisibility[neighbouringPosition.Row][neighbouringPosition.Col] = true
 				}
 			}
-
 		}
-
 	}
-
-	return
 }
 
 // Checks if a cell is revealed.
@@ -180,7 +175,7 @@ func (b Board) isCellRevealed(position Position) bool {
 func (b Board) Print() {
 	for i, row := range b.boardVisibility {
 		for j := range row {
-			if b.boardVisibility[i][j] == false {
+			if b.boardVisibility[i][j] {
 				fmt.Print(CELL_HIDDEN)
 				print(" ")
 			} else {
