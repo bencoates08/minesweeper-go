@@ -1,27 +1,25 @@
 package game
 
 import (
-	. "minesweeper-go/internal/core/domain/Board"
-
-	"github.com/google/uuid"
+	board "minesweeper-go/internal/core/domain/Board"
 )
 
 type Game struct {
-	ID            string        `json:"id"`
-	Name          string        `json:"name"`
-	State         string        `json:"state"`
-	BoardSettings BoardSettings `json:"board_settings"`
-	Board         Board         `json:"board"`
+	ID            string              `json:"id"`
+	Name          string              `json:"name"`
+	State         string              `json:"state"`
+	BoardSettings board.BoardSettings `json:"board_settings"`
+	Board         board.Board         `json:"board"`
 }
 
 func NewGame(id string, name string, height int, width int, bombs int) Game {
-	boardSettings := NewBoardSettings(height, width, bombs)
+	boardSettings := board.NewBoardSettings(height, width, bombs)
 	return Game{
-		ID:            uuid.New().String(),
+		ID:            id,
 		Name:          name,
 		State:         "started",
 		BoardSettings: boardSettings,
-		Board:         NewBoard(boardSettings),
+		Board:         board.NewBoard(boardSettings),
 	}
 }
 

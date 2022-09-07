@@ -6,12 +6,10 @@ import (
 	"strconv"
 )
 
-// TODO: handle flagging
 const (
-	CELL_EMPTY   = "-"
-	CELL_BOMB    = "X"
-	CELL_HIDDEN  = "H"
-	CELL_FLAGGED = "F"
+	CELL_EMPTY  = "-"
+	CELL_BOMB   = "X"
+	CELL_HIDDEN = "H"
 )
 
 type Position struct {
@@ -21,8 +19,8 @@ type Position struct {
 }
 
 type Board struct {
-	boardValues     [][]string
-	boardVisibility [][]bool
+	BoardValues     [][]string `json:"boardValues"`
+	BoardVisibility [][]bool   `json:"boardVisibility"`
 }
 
 // TODO: ask question about returning
@@ -47,7 +45,7 @@ func NewBoard(boardSettings BoardSettings) Board {
 	}
 
 	// Initialize board
-	board := Board{boardValues: boardValues, boardVisibility: boardVisibility}
+	board := Board{BoardValues: boardValues, BoardVisibility: boardVisibility}
 
 	// Initialize bombs and threat level to boardValues
 	board.addBombs(boardSettings.Bombs)
@@ -61,10 +59,10 @@ func (b *Board) addBombs(bombs int) {
 
 	// Initialize boardPositionsRemaining, a slice to track remaining positions to be filled with bombs.
 	// helps prevent randomly picking cells until a free cell is found.
-	boardPositionsRemaining := make([]Position, len(b.boardValues)*len(b.boardValues[0]))
-	for row := range b.boardValues {
-		for col := range b.boardValues[0] {
-			boardPositionsRemaining[row*len(b.boardValues[0])+col] = Position{Row: row, Col: col}
+	boardPositionsRemaining := make([]Position, len(b.BoardValues)*len(b.BoardValues[0]))
+	for row := range b.BoardValues {
+		for col := range b.BoardValues[0] {
+			boardPositionsRemaining[row*len(b.BoardValues[0])+col] = Position{Row: row, Col: col}
 		}
 	}
 
@@ -74,7 +72,7 @@ func (b *Board) addBombs(bombs int) {
 		randPosIndex := rand.Intn(len(boardPositionsRemaining))
 		randPos := boardPositionsRemaining[randPosIndex]
 		boardPositionsRemaining = removeElement(boardPositionsRemaining, randPosIndex)
-		b.boardValues[randPos.Row][randPos.Col] = CELL_BOMB
+		b.BoardValues[randPos.Row][randPos.Col] = CELL_BOMB
 	}
 }
 
@@ -85,20 +83,20 @@ func removeElement(slice []Position, index int) []Position {
 
 // Get Position object from board coordinates.
 func (b Board) GetPosition(row int, col int) Position {
-	return Position{Row: row, Col: col, Val: b.boardValues[row][col]}
+	return Position{Row: row, Col: col, Val: b.BoardValues[row][col]}
 }
 
 // Get neighbouring positions of a given position on the board.
 func (b Board) getNeighbouringPositions(position Position) []Position {
 	// row_limit and column_limit define board boundaries to prevent out of bounds errors
-	row_limit := len(b.boardValues) - 1
-	column_limit := len(b.boardValues[0]) - 1
+	row_limit := len(b.BoardValues) - 1
+	column_limit := len(b.BoardValues[0]) - 1
 	neighbouringPositions := make([]Position, 0)
 
 	for i := max(0, position.Row-1); i <= min(position.Row+1, row_limit); i++ {
 		for j := max(0, position.Col-1); j <= min(position.Col+1, column_limit); j++ {
 			if i != position.Row || j != position.Col {
-				neighbouringPositions = append(neighbouringPositions, Position{Row: i, Col: j, Val: b.boardValues[i][j]})
+				neighbouringPositions = append(neighbouringPositions, Position{Row: i, Col: j, Val: b.BoardValues[i][j]})
 			}
 		}
 	}
@@ -126,13 +124,13 @@ func (b Board) getThreatLevel(position Position) int {
 //
 // Calculate threat level for each cell on the board and store in boardValues.
 func (b *Board) calculateBoardThreatLevels() {
-	for row := range b.boardValues {
-		for col := range b.boardValues[0] {
-			if b.boardValues[row][col] == CELL_EMPTY {
+	for row := range b.BoardValues {
+		for col := range b.BoardValues[0] {
+			if b.BoardValues[row][col] == CELL_EMPTY {
 				threatLevel := b.getThreatLevel(Position{Row: row, Col: col})
 
 				if threatLevel > 0 {
-					b.boardValues[row][col] = strconv.Itoa(threatLevel)
+					b.BoardValues[row][col] = strconv.Itoa(threatLevel)
 				}
 			}
 		}
@@ -150,7 +148,7 @@ func (b *Board) Reveal(position Position) {
 	}
 
 	if !b.isCellRevealed(position) {
-		b.boardVisibility[position.Row][position.Col] = true
+		b.BoardVisibility[position.Row][position.Col] = true
 
 		neighbouringPositions := b.getNeighbouringPositions(position)
 		for _, neighbouringPosition := range neighbouringPositions {
@@ -159,7 +157,7 @@ func (b *Board) Reveal(position Position) {
 				if neighbouringPosition.Val == CELL_EMPTY {
 					b.Reveal(neighbouringPosition)
 				} else if position.Val == CELL_EMPTY {
-					b.boardVisibility[neighbouringPosition.Row][neighbouringPosition.Col] = true
+					b.BoardVisibility[neighbouringPosition.Row][neighbouringPosition.Col] = true
 				}
 			}
 		}
@@ -168,18 +166,18 @@ func (b *Board) Reveal(position Position) {
 
 // Checks if a cell is revealed.
 func (b Board) isCellRevealed(position Position) bool {
-	return b.boardVisibility[position.Row][position.Col]
+	return b.BoardVisibility[position.Row][position.Col]
 }
 
 // Prints the current view of the board.
 func (b Board) Print() {
-	for i, row := range b.boardVisibility {
+	for i, row := range b.BoardVisibility {
 		for j := range row {
-			if b.boardVisibility[i][j] {
+			if b.BoardVisibility[i][j] {
 				fmt.Print(CELL_HIDDEN)
 				print(" ")
 			} else {
-				fmt.Print(b.boardValues[i][j])
+				fmt.Print(b.BoardValues[i][j])
 				print(" ")
 			}
 		}
@@ -189,7 +187,7 @@ func (b Board) Print() {
 
 // Prints the fully revealed board.
 func (b Board) PrintRevealedBoard() {
-	for _, row := range b.boardValues {
+	for _, row := range b.BoardValues {
 		fmt.Println(row)
 	}
 }

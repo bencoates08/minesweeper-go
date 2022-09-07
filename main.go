@@ -1,7 +1,8 @@
 package main
 
 import (
-	. "minesweeper-go/internal/core/domain/board"
+	"minesweeper-go/internal/core/services/gameService"
+	"minesweeper-go/internal/repositories/gameRepository"
 	// "minesweeper-go/internal/core/services/gameService"
 	// "minesweeper-go/internal/handlers/gameHandler"
 	// "minesweeper-go/internal/repositories/gameRepository"
@@ -9,40 +10,20 @@ import (
 )
 
 func main() {
-	boardSettings := BoardSettings{Height: 20, Width: 30, Bombs: 80}
-	board := NewBoard(boardSettings)
+	gameRepository := gameRepository.NewMemKVS()
+	gameService := gameService.New(gameRepository)
 
-	board.PrintRevealedBoard()
-	board.Print()
+	gameID, _ := gameService.Create("test", 20, 30, 80)
 
-	// input := ""
-	// for input != "q" {
-	// 	println("Enter row: ")
-	// 	fmt.Scanln(&input)
-	// 	println("Enter col: ")
-	// 	fmt.Scanln(&input)
+	gameService.Reveal(gameID, 0, 0)
+	gameService.Reveal(gameID, 0, 4)
+	gameService.Reveal(gameID, 1, 2)
+	gameService.Reveal(gameID, 15, 15)
 
-	// 	row, _ := strconv.Atoi(input)
-	// 	col, _ := strconv.Atoi(input)
-	// 	boardDisplay.Reveal(boardState.GetPosition(col-1, row-1), boardState)
-	// 	boardDisplay.Print(boardState)
-	// }
+	game, _ := gameService.Get(gameID)
 
-	board.Reveal(board.GetPosition(0, 0))
-	board.Print()
-	println()
-
-	board.Reveal(board.GetPosition(0, 4))
-	board.Print()
-	println()
-
-	board.Reveal(board.GetPosition(1, 2))
-	board.Print()
-	println()
-
-	board.Reveal(board.GetPosition(15, 15))
-	board.Print()
-	println()
+	game.Board.PrintRevealedBoard()
+	game.Board.Print()
 
 	// boardDisplay.FlagPosition(Position{Row: 1, Col: 3, Val: "F"})
 
