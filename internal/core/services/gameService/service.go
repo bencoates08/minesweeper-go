@@ -27,16 +27,17 @@ func (srv *service) Get(id string) (game.Game, error) {
 	return game, nil
 }
 
-func (srv *service) Create(name string, size uint, bombs uint) (game.Game, error) {
-	if bombs >= size*size {
+func (srv *service) Create(name string, height int, width int, bombs int) (game.Game, error) {
+	if bombs >= height*width-9 {
 		return game.Game{}, errors.New("the number of bombs is invalid")
 	}
 
-	game := game.NewGame(uuid.New().String(), name, size, bombs)
+	newGame := game.NewGame(uuid.New().String(), name, height, width, bombs)
 
-	if err := srv.gamesRepository.Save(game); err != nil {
+	err := srv.gamesRepository.Save(newGame)
+	if err != nil {
 		return game.Game{}, errors.New("create game into repository has failed")
 	}
 
-	return game, nil
+	return newGame, nil
 }
