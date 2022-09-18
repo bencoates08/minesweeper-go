@@ -21,7 +21,6 @@ type GameResponse struct {
 	Board [][]string `json:"board"`
 }
 
-// TODO: Not happy with this, handler shouldn't be dealing with functions on Board
 func BuildGameResponse(model game.Game) GameResponse {
 	return GameResponse{
 		ID:    model.ID,
