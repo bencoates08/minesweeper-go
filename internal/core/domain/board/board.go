@@ -1,6 +1,7 @@
 package board
 
 import (
+	"errors"
 	"math/rand"
 	"strconv"
 )
@@ -18,11 +19,11 @@ type Position struct {
 }
 
 type Board struct {
-	BoardValues     [][]string `json:"boardValues"`
-	BoardVisibility [][]bool   `json:"boardVisibility"`
+	BoardValues     [][]string `json:"board_values"`
+	BoardVisibility [][]bool   `json:"board_visibility"`
+	CellsRemaining  int        `json:"cells_remaining"`
 }
 
-// TODO: ask question about returning
 // Create a new Minesweeper board used to track game state and display the board.
 func NewBoard(boardSettings BoardSettings) Board {
 	// Initialize boardVisibility
@@ -42,9 +43,11 @@ func NewBoard(boardSettings BoardSettings) Board {
 			boardValues[row][col] = CELL_EMPTY
 		}
 	}
-
+	
 	// Initialize board
 	board := Board{BoardValues: boardValues, BoardVisibility: boardVisibility}
+	
+	board.CellsRemaining = boardSettings.Height*boardSettings.Width - boardSettings.Bombs
 
 	// Initialize bombs and threat level to boardValues
 	board.addBombs(boardSettings.Bombs)
@@ -141,13 +144,15 @@ func (b *Board) calculateBoardThreatLevels() {
 // If the selected cell or one of its adjacent cells has 0 threat level then all
 // cells adjacent to the zero threat level cell are revealed. All adjacent 0 threat
 // level cells are revealed recursively i.e. a chunk of the board is revealed.
-func (b *Board) Reveal(position Position) {
+func (b *Board) Reveal(position Position) error {
 	if position.Val == CELL_BOMB {
-		return
+		b.BoardVisibility[position.Row][position.Col] = true
+		return errors.New("bomb hit")
 	}
 
 	if !b.isCellRevealed(position) {
 		b.BoardVisibility[position.Row][position.Col] = true
+		b.CellsRemaining--
 
 		neighbouringPositions := b.getNeighbouringPositions(position)
 		for _, neighbouringPosition := range neighbouringPositions {
@@ -157,10 +162,12 @@ func (b *Board) Reveal(position Position) {
 					b.Reveal(neighbouringPosition)
 				} else if position.Val == CELL_EMPTY {
 					b.BoardVisibility[neighbouringPosition.Row][neighbouringPosition.Col] = true
+					b.CellsRemaining--
 				}
 			}
 		}
 	}
+	return nil
 }
 
 // Checks if a cell is revealed.

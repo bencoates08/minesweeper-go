@@ -48,6 +48,10 @@ func (srv *service) Reveal(id string, row int, col int) (game.Game, error) {
 		return currentGame, err
 	}
 
+	if currentGame.State != game.StateInProgress {
+		return currentGame, errors.New("current game is over")
+	}
+
 	currentGame.Reveal(row, col)
 
 	err = srv.gamesRepository.Save(currentGame)
