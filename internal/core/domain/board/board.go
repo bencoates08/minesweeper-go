@@ -8,8 +8,8 @@ import (
 )
 
 const (
-	CELL_EMPTY = "-"
-	CELL_BOMB  = "X"
+	CELL_EMPTY  = "-"
+	CELL_BOMB   = "X"
 	CELL_HIDDEN = "H"
 )
 
@@ -54,7 +54,7 @@ func NewBoard(boardSettings BoardSettings) (Board, error) {
 // Randomly disperse bombs within BoardState
 func (b *Board) addBombs(bombs int) error {
 	// Check number of bombs is valid
-	if len(b.BoardState)*len(b.BoardState[0]) - bombs < 1 {
+	if len(b.BoardState)*len(b.BoardState[0])-bombs < 1 {
 		return errors.New("too many bombs")
 	}
 

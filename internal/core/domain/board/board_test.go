@@ -41,10 +41,10 @@ var _ = Describe("Board", func() {
 				It("should return an error", func() {
 					// Arrange
 					boardSettings := board.NewBoardSettings(0, 5, 5)
-	
+
 					// Act
 					_, err := board.NewBoard(boardSettings)
-	
+
 					// Assert
 					Expect(err).To(HaveOccurred())
 					Expect(err).To(MatchError("board dimensions must be greater than 0"))
@@ -55,10 +55,10 @@ var _ = Describe("Board", func() {
 				It("should return an error", func() {
 					// Arrange
 					boardSettings := board.NewBoardSettings(5, 0, 5)
-	
+
 					// Act
 					_, err := board.NewBoard(boardSettings)
-	
+
 					// Assert
 					Expect(err).To(HaveOccurred())
 					Expect(err).To(MatchError("board dimensions must be greater than 0"))
@@ -69,10 +69,10 @@ var _ = Describe("Board", func() {
 				It("should return an error", func() {
 					// Arrange
 					boardSettings := board.NewBoardSettings(5, 5, 50)
-	
+
 					// Act
 					_, err := board.NewBoard(boardSettings)
-	
+
 					// Assert
 					Expect(err).To(HaveOccurred())
 					Expect(err).To(MatchError("too many bombs"))

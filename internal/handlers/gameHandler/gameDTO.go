@@ -15,19 +15,19 @@ type RevealRequest struct {
 }
 
 type GameResponse struct {
-	ID    				 string     `json:"id"`
-	Name  				 string     `json:"name"`
-	State 				 string     `json:"state"`
-	CellsRemaining int 				`json:"cells_remaining"`
-	Board 				 [][]string `json:"board"`
+	ID             string     `json:"id"`
+	Name           string     `json:"name"`
+	State          string     `json:"state"`
+	CellsRemaining int        `json:"cells_remaining"`
+	Board          [][]string `json:"board"`
 }
 
 func BuildGameResponse(model game.Game) GameResponse {
 	return GameResponse{
-		ID:    					model.ID,
-		Name:  					model.Name,
-		State: 					model.State,
+		ID:             model.ID,
+		Name:           model.Name,
+		State:          model.State,
 		CellsRemaining: model.CellsRemaining,
-		Board: 					model.PlayerView,
+		Board:          model.PlayerView,
 	}
 }
