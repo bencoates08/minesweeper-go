@@ -1,7 +1,7 @@
 package game
 
 import (
-	board "minesweeper-go/internal/core/domain/Board"
+	board "minesweeper-go/internal/core/domain/board"
 )
 
 const (
