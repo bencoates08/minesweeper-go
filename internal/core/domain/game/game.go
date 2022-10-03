@@ -35,9 +35,7 @@ func NewGame(id string, name string, height int, width int, bombs int) Game {
 }
 
 func (g *Game) Reveal(row int, col int) {
-	position := g.Board.GetPosition(row-1, col-1)
-
-	err := g.Board.Reveal(position)
+	err := g.Board.Reveal(row-1, col-1)
 	g.PlayerView = g.Board.GetVisibleBoard()
 	if err != nil {
 		if err.Error() == "bomb hit" {

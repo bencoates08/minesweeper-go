@@ -94,7 +94,7 @@ func removeElement(slice []Position, index int) ([]Position, error) {
 }
 
 // Get Position object from board coordinates.
-func (b Board) GetPosition(row int, col int) (Position, error) {
+func (b Board) getPosition(row int, col int) (Position, error) {
 	if row < 0 || row > len(b.BoardState)-1 {
 		return Position{}, errors.New("row index out of bounds")
 	}
@@ -161,7 +161,12 @@ func (b *Board) calculateBoardThreatLevels() {
 // If the selected cell or one of its adjacent cells has 0 threat level then all
 // cells adjacent to the zero threat level cell are revealed. All adjacent 0 threat
 // level cells are revealed recursively i.e. a chunk of the board is revealed.
-func (b *Board) Reveal(position Position) error {
+func (b *Board) Reveal(row int, col int) error {
+	position, err := b.getPosition(row, col)
+	if err != nil {
+		return err
+	}
+
 	if position.Val == CELL_BOMB {
 		b.BoardState[position.Row][position.Col].Visible = true
 		return errors.New("bomb hit")
@@ -176,7 +181,7 @@ func (b *Board) Reveal(position Position) error {
 
 			if !b.isCellRevealed(neighbouringPosition) {
 				if neighbouringPosition.Val == CELL_EMPTY {
-					b.Reveal(neighbouringPosition)
+					b.Reveal(neighbouringPosition.Row, neighbouringPosition.Col)
 				} else if position.Val == CELL_EMPTY {
 					b.BoardState[neighbouringPosition.Row][neighbouringPosition.Col].Visible = true
 					b.CellsRemaining--
