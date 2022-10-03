@@ -22,7 +22,7 @@ type Game struct {
 
 func NewGame(id string, name string, height int, width int, bombs int) Game {
 	boardSettings := board.NewBoardSettings(height, width, bombs)
-	board := board.NewBoard(boardSettings)
+	board, _ := board.NewBoard(boardSettings)
 	return Game{
 		ID:             id,
 		Name:           name,
