@@ -2,6 +2,7 @@ package board
 
 import (
 	"errors"
+	"fmt"
 	"math/rand"
 	"strconv"
 )
@@ -22,8 +23,6 @@ func NewBoard(boardSettings BoardSettings) (Board, error) {
 	// Check provided board dimensions are valid
 	if boardSettings.Height < 1 || boardSettings.Width < 1 {
 		return Board{}, errors.New("board dimensions must be greater than 0")
-	} else if boardSettings.Height*boardSettings.Width - boardSettings.Bombs < 1 {
-		return Board{}, errors.New("too many bombs")
 	}
 
 	// Initialize empty boardState
@@ -43,14 +42,21 @@ func NewBoard(boardSettings BoardSettings) (Board, error) {
 	board := Board{BoardState: boardState, CellsRemaining: cellsRemaining}
 
 	// Initialize bombs and threat level to BoardState
-	board.addBombs(boardSettings.Bombs)
+	err := board.addBombs(boardSettings.Bombs)
+	if err != nil {
+		return Board{}, err
+	}
 	board.calculateBoardThreatLevels()
 
 	return board, nil
 }
 
 // Randomly disperse bombs within BoardState
-func (b *Board) addBombs(bombs int) {
+func (b *Board) addBombs(bombs int) error {
+	// Check number of bombs is valid
+	if len(b.BoardState)*len(b.BoardState[0]) - bombs < 1 {
+		return errors.New("too many bombs")
+	}
 
 	// Initialize boardPositionsRemaining, a slice to track remaining positions to be filled with bombs.
 	// helps prevent randomly picking cells until a free cell is found.
@@ -66,19 +72,37 @@ func (b *Board) addBombs(bombs int) {
 	for i := 0; i < bombs; i++ {
 		randPosIndex := rand.Intn(len(boardPositionsRemaining))
 		randPos := boardPositionsRemaining[randPosIndex]
-		boardPositionsRemaining = removeElement(boardPositionsRemaining, randPosIndex)
+
+		var err error
+		boardPositionsRemaining, err = removeElement(boardPositionsRemaining, randPosIndex)
+		if err != nil {
+			return fmt.Errorf("error removing element from boardPositionsRemaining: %v", err)
+		}
+
 		b.BoardState[randPos.Row][randPos.Col].Val = CELL_BOMB
 	}
+
+	return nil
 }
 
-// Remove an elemnt from a slice.
-func removeElement(slice []Position, index int) []Position {
-	return append(slice[:index], slice[index+1:]...)
+// Remove an element from a slice.
+func removeElement(slice []Position, index int) ([]Position, error) {
+	if index < 0 || index > len(slice)-1 {
+		return slice, errors.New("index out of bounds")
+	}
+	return append(slice[:index], slice[index+1:]...), nil
 }
 
 // Get Position object from board coordinates.
-func (b Board) GetPosition(row int, col int) Position {
-	return b.BoardState[row][col]
+func (b Board) GetPosition(row int, col int) (Position, error) {
+	if row < 0 || row > len(b.BoardState)-1 {
+		return Position{}, errors.New("row index out of bounds")
+	}
+	if col < 0 || col > len(b.BoardState[row])-1 {
+		return Position{}, errors.New("column index out of bounds")
+	}
+
+	return b.BoardState[row][col], nil
 }
 
 // Get neighbouring positions of a given position on the board.
