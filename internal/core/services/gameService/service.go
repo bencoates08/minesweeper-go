@@ -1,6 +1,7 @@
 package gameService
 
 import (
+	"context"
 	"fmt"
 	"minesweeper-go/internal/core/domain/game"
 	"minesweeper-go/internal/core/ports"
@@ -18,8 +19,8 @@ func New(gamesRepository ports.GamesRepository) *service {
 	}
 }
 
-func (srv *service) Get(id string) (game.Game, error) {
-	game, err := srv.gamesRepository.Get(id)
+func (srv *service) Get(ctx context.Context, id string) (game.Game, error) {
+	game, err := srv.gamesRepository.Get(ctx, id)
 	if err != nil {
 		return game, fmt.Errorf("unable to get a game with the given id (%v): %v", id, err)
 	}
@@ -27,13 +28,19 @@ func (srv *service) Get(id string) (game.Game, error) {
 	return game, nil
 }
 
-func (srv *service) Create(name string, height int, width int, bombs int) (game.Game, error) {
+func (srv *service) Create(
+	ctx context.Context,
+	name string,
+	height int,
+	width int,
+	bombs int,
+) (game.Game, error) {
 	newGame, err := game.NewGame(uuid.New().String(), name, height, width, bombs)
 	if err != nil {
 		return game.Game{}, err
 	}
 
-	err = srv.gamesRepository.Save(newGame)
+	err = srv.gamesRepository.Save(ctx, newGame)
 	if err != nil {
 		return game.Game{}, fmt.Errorf("unable to save new game to repository: %v", err)
 	}
@@ -41,8 +48,8 @@ func (srv *service) Create(name string, height int, width int, bombs int) (game.
 	return newGame, nil
 }
 
-func (srv *service) Reveal(id string, row int, col int) (game.Game, error) {
-	currentGame, err := srv.Get(id)
+func (srv *service) Reveal(ctx context.Context, id string, row int, col int) (game.Game, error) {
+	currentGame, err := srv.Get(ctx, id)
 	if err != nil {
 		return currentGame, err
 	}
@@ -52,7 +59,7 @@ func (srv *service) Reveal(id string, row int, col int) (game.Game, error) {
 		return currentGame, err
 	}
 
-	err = srv.gamesRepository.Save(currentGame)
+	err = srv.gamesRepository.Save(ctx, currentGame)
 	if err != nil {
 		return currentGame, fmt.Errorf("unable to save the game to the repository: %v", err)
 	}
