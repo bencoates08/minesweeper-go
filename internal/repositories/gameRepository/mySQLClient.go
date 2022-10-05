@@ -80,12 +80,10 @@ func (dc DatastoreClient) Save(ctx context.Context, currentGame game.Game) error
 		return err
 	}
 
-	// Get a Tx for making transaction requests.
   tx, err := dc.DB.BeginTx(ctx, nil)
   if err != nil {
       return err
   }
-  // Defer a rollback in case anything fails.
   defer tx.Rollback()
 
 	var gameExists bool
