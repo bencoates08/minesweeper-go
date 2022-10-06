@@ -9,7 +9,7 @@ require (
 	github.com/onsi/gomega v1.20.2
 )
 
-require github.com/go-sql-driver/mysql v1.6.0 // indirect
+require github.com/go-sql-driver/mysql v1.6.0
 
 require (
 	github.com/caarlos0/env/v6 v6.10.1
