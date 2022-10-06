@@ -212,6 +212,9 @@ var _ = Describe("Board", func() {
 	})
 })
 
+//
+// Helper functions
+
 func checkBoardState(board board.Board, expectedState [][]string) {
 	for i, row := range expectedState {
 		for j, cell := range row {
@@ -247,6 +250,7 @@ func containsPosition(positions []board.Position, position board.Position) bool 
 	return false
 }
 
+//
 // Validation functions
 
 func positionIsNotVisible(pos board.Position) (bool, error) {
