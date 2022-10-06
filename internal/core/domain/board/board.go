@@ -55,6 +55,9 @@ func NewBoard(boardSettings BoardSettings, seed int64) (Board, error) {
 // Randomly disperse bombs within BoardState
 func (b *Board) addBombs(bombs int) error {
 	// Check number of bombs is valid
+	if bombs < 1 {
+		return errors.New("number of bombs must be greater than 0")
+	}
 	if len(b.BoardState)*len(b.BoardState[0])-bombs < 1 {
 		return errors.New("too many bombs")
 	}

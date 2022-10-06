@@ -80,6 +80,20 @@ var _ = Describe("Board", func() {
 					Expect(err).To(MatchError("too many bombs"))
 				})
 			})
+
+			Context("number of bombs is less than 1", func() {
+				It("should return an error", func() {
+					// Arrange
+					boardSettings := board.NewBoardSettings(6, 6, 0)
+
+					// Act
+					_, err := board.NewBoard(boardSettings, 1)
+
+					// Assert
+					Expect(err).To(HaveOccurred())
+					Expect(err).To(MatchError("number of bombs must be greater than 0"))
+				})
+			})
 		})
 	})
 
