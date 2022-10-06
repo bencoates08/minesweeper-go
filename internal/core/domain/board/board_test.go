@@ -100,7 +100,7 @@ var _ = Describe("Board", func() {
 				// Assert
 				Expect(err).ToNot(HaveOccurred())
 				Expect(currentBoard.BoardState[0][0].Visible).To(BeTrue())
-				checkAllPositions(currentBoard, positionIsNotVisible, currentBoard.BoardState[0][0])
+				validateAllPositions(currentBoard, positionIsNotVisible, currentBoard.BoardState[0][0])
 				Expect(currentBoard.CellsRemaining).To(Equal(27))
 			})
 		})
@@ -228,7 +228,7 @@ func checkBoardState(board board.Board, expectedState [][]string) {
 	}
 }
 
-func checkAllPositions(board board.Board, validateFn func(board.Position) (bool, error), ignorePositions ...board.Position) {
+func validateAllPositions(board board.Board, validateFn func(board.Position) (bool, error), ignorePositions ...board.Position) {
 	for _, row := range board.BoardState {
 		for _, cell := range row {
 			if !containsPosition(ignorePositions, cell) {
