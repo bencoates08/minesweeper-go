@@ -18,7 +18,7 @@ var _ = Describe("Board", func() {
 		{"2", "2", "1", "1", "1"},
 	}
 
-	Describe("Initialising a board", func() {
+	Describe("NewBoard", func() {
 		When("the board settings are valid", func() {
 			It("should return a board with the correct dimensions", func() {
 				// Arrange
@@ -79,6 +79,20 @@ var _ = Describe("Board", func() {
 				})
 			})
 		})
+	})
+
+	Describe("Reveal", func() {
+		When("the cell is a bomb", func() {})
+		When("the cell is a number and not adjacent to empty cell", func() {})
+		When("the cell is a number and adjacent to empty cell", func() {})
+		When("the cell is empty", func() {})
+		When("the cell is already revealed", func() {})
+		When("the cell is out of bounds", func() {})
+	})
+
+	Describe("GetVisibleBoard", func() {
+		When("the board is in its initial state", func() {})
+		When("the board has some cells revealed", func() {})
 	})
 })
 
