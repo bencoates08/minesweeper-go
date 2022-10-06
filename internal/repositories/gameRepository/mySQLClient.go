@@ -10,12 +10,12 @@ import (
 )
 
 type DatastoreClient struct {
-	DB    *sql.DB
+	DB *sql.DB
 }
 
 func NewMySQLClient(db *sql.DB) DatastoreClient {
 	return DatastoreClient{
-		DB:    db,
+		DB: db,
 	}
 }
 
@@ -57,7 +57,6 @@ func (dc DatastoreClient) Get(ctx context.Context, id string) (game.Game, error)
 		return currentGame, err
 	}
 
-
 	return currentGame, nil
 }
 
@@ -80,28 +79,28 @@ func (dc DatastoreClient) Save(ctx context.Context, currentGame game.Game) error
 		return err
 	}
 
-  tx, err := dc.DB.BeginTx(ctx, nil)
-  if err != nil {
-      return err
-  }
-  defer tx.Rollback()
+	tx, err := dc.DB.BeginTx(ctx, nil)
+	if err != nil {
+		return err
+	}
+	defer tx.Rollback()
 
 	var gameExists bool
-  if err = tx.QueryRowContext(
+	if err = tx.QueryRowContext(
 		ctx,
 		"SELECT EXISTS(SELECT * FROM games WHERE id = ?)",
 		currentGame.ID,
 	).Scan(&gameExists); err != nil {
-    if err == sql.ErrNoRows {
-        return err
-    }
-    return err
-  }
+		if err == sql.ErrNoRows {
+			return err
+		}
+		return err
+	}
 
 	fmt.Println(gameExists)
 	log.Println(gameExists)
 
-  if gameExists {
+	if gameExists {
 		query := `UPDATE games SET
 			name = ?,
 			state = ?,
@@ -110,7 +109,7 @@ func (dc DatastoreClient) Save(ctx context.Context, currentGame game.Game) error
 			player_view = ?,
 			cells_remaining = ?
 			WHERE id = ?`
-		
+
 		_, err = tx.ExecContext(
 			ctx,
 			query,

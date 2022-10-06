@@ -6,7 +6,7 @@ import (
 )
 
 type GamesRepository interface {
-	Get(context.Context,  string) (game.Game, error)
+	Get(context.Context, string) (game.Game, error)
 	Save(context.Context, game.Game) error
 }
 

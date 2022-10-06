@@ -3,6 +3,7 @@ package game
 import (
 	"fmt"
 	board "minesweeper-go/internal/core/domain/board"
+	"time"
 )
 
 const (
@@ -21,23 +22,23 @@ type Game struct {
 	CellsRemaining int                 `json:"cells_remaining"`
 }
 
-func NewGame(id string, name string, height int, width int, bombs int) (Game, error){
+func NewGame(id string, name string, height int, width int, bombs int) (Game, error) {
 	boardSettings := board.NewBoardSettings(height, width, bombs)
-	board, err := board.NewBoard(boardSettings)
+	board, err := board.NewBoard(boardSettings, time.Now().UnixNano())
 	if err != nil {
 		return Game{}, fmt.Errorf("unable to create new game: %v", err)
 	}
 
 	return Game{
-		ID:             id,
-		Name:           name,
-		State:          StateInProgress,
-		BoardSettings:  boardSettings,
-		Board:          board,
-		PlayerView:     board.GetVisibleBoard(),
-		CellsRemaining: board.CellsRemaining,
-	}, 
-	nil
+			ID:             id,
+			Name:           name,
+			State:          StateInProgress,
+			BoardSettings:  boardSettings,
+			Board:          board,
+			PlayerView:     board.GetVisibleBoard(),
+			CellsRemaining: board.CellsRemaining,
+		},
+		nil
 }
 
 func (g *Game) Reveal(row int, col int) error {

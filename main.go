@@ -30,7 +30,7 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	
+
 	gameRepository := gameRepository.NewMySQLClient(db)
 	gameService := gameService.New(gameRepository)
 	gameHandler := gameHandler.NewHTTPHandler(gameService)

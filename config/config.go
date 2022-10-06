@@ -7,10 +7,10 @@ type AppConfig struct {
 }
 
 type DatabaseConfig struct {
-	User           string `env:"DB_USER" envDefault:"root"`
-	Password       string `env:"DB_PASSWORD" envDefault:"api-minesweeper"`
-	Container      string `env:"DB_HOST" envDefault:"api-minesweeper-db"`
-	Name           string `env:"DB_NAME" envDefault:"api-minesweeper-db"`
+	User      string `env:"DB_USER" envDefault:"root"`
+	Password  string `env:"DB_PASSWORD" envDefault:"api-minesweeper"`
+	Container string `env:"DB_HOST" envDefault:"api-minesweeper-db"`
+	Name      string `env:"DB_NAME" envDefault:"api-minesweeper-db"`
 }
 
 func NewAppConfig() (AppConfig, error) {

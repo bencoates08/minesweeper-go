@@ -19,7 +19,8 @@ type Board struct {
 }
 
 // Create a new Minesweeper board used to track game state and display the board.
-func NewBoard(boardSettings BoardSettings) (Board, error) {
+func NewBoard(boardSettings BoardSettings, seed int64) (Board, error) {
+	rand.Seed(seed)
 	// Check provided board dimensions are valid
 	if boardSettings.Height < 1 || boardSettings.Width < 1 {
 		return Board{}, errors.New("board dimensions must be greater than 0")
@@ -106,16 +107,16 @@ func (b Board) getPosition(row int, col int) (Position, error) {
 }
 
 // Get neighbouring positions of a given position on the board.
-func (b Board) getNeighbouringPositions(position Position) []Position {
+func (b Board) getNeighbouringPositions(position Position) []*Position {
 	// row_limit and column_limit define board boundaries to prevent out of bounds errors
 	row_limit := len(b.BoardState) - 1
 	column_limit := len(b.BoardState[0]) - 1
-	neighbouringPositions := make([]Position, 0)
+	neighbouringPositions := make([]*Position, 0)
 
 	for i := max(0, position.Row-1); i <= min(position.Row+1, row_limit); i++ {
 		for j := max(0, position.Col-1); j <= min(position.Col+1, column_limit); j++ {
 			if i != position.Row || j != position.Col {
-				neighbouringPositions = append(neighbouringPositions, b.BoardState[i][j])
+				neighbouringPositions = append(neighbouringPositions, &b.BoardState[i][j])
 			}
 		}
 	}
@@ -172,29 +173,27 @@ func (b *Board) Reveal(row int, col int) error {
 		return errors.New("bomb hit")
 	}
 
-	if !b.isCellRevealed(position) {
-		b.BoardState[position.Row][position.Col].Visible = true
-		b.CellsRemaining--
+	if position.Visible {
+		return errors.New("cell already revealed")
+	}
 
-		neighbouringPositions := b.getNeighbouringPositions(position)
-		for _, neighbouringPosition := range neighbouringPositions {
+	b.BoardState[position.Row][position.Col].Visible = true
+	b.CellsRemaining--
 
-			if !b.isCellRevealed(neighbouringPosition) {
-				if neighbouringPosition.Val == CELL_EMPTY {
-					b.Reveal(neighbouringPosition.Row, neighbouringPosition.Col)
-				} else if position.Val == CELL_EMPTY {
-					b.BoardState[neighbouringPosition.Row][neighbouringPosition.Col].Visible = true
-					b.CellsRemaining--
-				}
+	neighbouringPositions := b.getNeighbouringPositions(position)
+	for _, neighbouringPosition := range neighbouringPositions {
+
+		if !neighbouringPosition.Visible {
+			if neighbouringPosition.Val == CELL_EMPTY {
+				b.Reveal(neighbouringPosition.Row, neighbouringPosition.Col)
+			} else if position.Val == CELL_EMPTY {
+				b.BoardState[neighbouringPosition.Row][neighbouringPosition.Col].Visible = true
+				b.CellsRemaining--
 			}
 		}
 	}
-	return nil
-}
 
-// Checks if a cell is revealed.
-func (b Board) isCellRevealed(position Position) bool {
-	return b.BoardState[position.Row][position.Col].Visible
+	return nil
 }
 
 // Gets the current view of the board.
