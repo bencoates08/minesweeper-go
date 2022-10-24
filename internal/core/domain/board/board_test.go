@@ -24,17 +24,17 @@ var _ = Describe("Board", func() {
 		When("the board settings are valid", func() {
 			It("should return a board with the correct dimensions", func() {
 				// Arrange
-				boardSettings := board.NewBoardSettings(6, 6, 8)
+				boardSettings := board.NewBoardSettings(6, 6, 8, 1)
 
 				// Act
-				board, err := board.NewBoard(boardSettings, 1)
+				board, err := board.NewBoard(boardSettings)
 
 				// Assert
 				Expect(err).To(BeNil())
 				Expect(len(board.BoardState)).To(Equal(6))
 				Expect(len(board.BoardState[0])).To(Equal(6))
 				Expect(board.CellsRemaining).To(Equal(28))
-				checkBoardState(board, PREDEFINED_BOARD_STATE)
+				CheckBoardState(board, PREDEFINED_BOARD_STATE)
 			})
 		})
 
@@ -42,10 +42,10 @@ var _ = Describe("Board", func() {
 			Context("height provided is below 1", func() {
 				It("should return an error", func() {
 					// Arrange
-					boardSettings := board.NewBoardSettings(0, 6, 8)
+					boardSettings := board.NewBoardSettings(0, 6, 8, 1)
 
 					// Act
-					_, err := board.NewBoard(boardSettings, 1)
+					_, err := board.NewBoard(boardSettings)
 
 					// Assert
 					Expect(err).To(HaveOccurred())
@@ -56,10 +56,10 @@ var _ = Describe("Board", func() {
 			Context("width provided is below 1", func() {
 				It("should return an error", func() {
 					// Arrange
-					boardSettings := board.NewBoardSettings(6, 0, 8)
+					boardSettings := board.NewBoardSettings(6, 0, 8, 1)
 
 					// Act
-					_, err := board.NewBoard(boardSettings, 1)
+					_, err := board.NewBoard(boardSettings)
 
 					// Assert
 					Expect(err).To(HaveOccurred())
@@ -70,10 +70,10 @@ var _ = Describe("Board", func() {
 			Context("number of bombs is more than available cells", func() {
 				It("should return an error", func() {
 					// Arrange
-					boardSettings := board.NewBoardSettings(6, 6, 50)
+					boardSettings := board.NewBoardSettings(6, 6, 50, 1)
 
 					// Act
-					_, err := board.NewBoard(boardSettings, 1)
+					_, err := board.NewBoard(boardSettings)
 
 					// Assert
 					Expect(err).To(HaveOccurred())
@@ -84,10 +84,10 @@ var _ = Describe("Board", func() {
 			Context("number of bombs is less than 1", func() {
 				It("should return an error", func() {
 					// Arrange
-					boardSettings := board.NewBoardSettings(6, 6, 0)
+					boardSettings := board.NewBoardSettings(6, 6, 0, 1)
 
 					// Act
-					_, err := board.NewBoard(boardSettings, 1)
+					_, err := board.NewBoard(boardSettings)
 
 					// Assert
 					Expect(err).To(HaveOccurred())
@@ -102,8 +102,8 @@ var _ = Describe("Board", func() {
 
 		BeforeEach(func() {
 			// Arrange
-			boardSettings := board.NewBoardSettings(6, 6, 8)
-			currentBoard, _ = board.NewBoard(boardSettings, 1)
+			boardSettings := board.NewBoardSettings(6, 6, 8, 1)
+			currentBoard, _ = board.NewBoard(boardSettings)
 		})
 
 		When("the cell is a number and not adjacent to empty cell", func() {
@@ -178,8 +178,8 @@ var _ = Describe("Board", func() {
 
 		BeforeEach(func() {
 			// Arrange
-			boardSettings := board.NewBoardSettings(6, 6, 8)
-			currentBoard, _ = board.NewBoard(boardSettings, 1)
+			boardSettings := board.NewBoardSettings(6, 6, 8, 1)
+			currentBoard, _ = board.NewBoard(boardSettings)
 		})
 
 		When("the board is in its initial state", func() {
@@ -229,7 +229,7 @@ var _ = Describe("Board", func() {
 //
 // Helper functions
 
-func checkBoardState(board board.Board, expectedState [][]string) {
+func CheckBoardState(board board.Board, expectedState [][]string) {
 	for i, row := range expectedState {
 		for j, cell := range row {
 			if board.BoardState[i][j].Val != cell {

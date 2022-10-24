@@ -19,8 +19,8 @@ type Board struct {
 }
 
 // Create a new Minesweeper board used to track game state and display the board.
-func NewBoard(boardSettings BoardSettings, seed int64) (Board, error) {
-	rand.Seed(seed)
+func NewBoard(boardSettings BoardSettings) (Board, error) {
+	rand.Seed(boardSettings.Seed)
 	// Check provided board dimensions are valid
 	if boardSettings.Height < 1 || boardSettings.Width < 1 {
 		return Board{}, errors.New("board dimensions must be greater than 0")

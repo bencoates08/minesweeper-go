@@ -22,9 +22,15 @@ type Game struct {
 	CellsRemaining int                 `json:"cells_remaining"`
 }
 
-func NewGame(id string, name string, height int, width int, bombs int) (Game, error) {
-	boardSettings := board.NewBoardSettings(height, width, bombs)
-	board, err := board.NewBoard(boardSettings, time.Now().UnixNano())
+func NewGame(id string, name string, height int, width int, bombs int, seed ...int64) (Game, error) {
+	var boardSettings board.BoardSettings
+	if len(seed) > 0 {
+		boardSettings = board.NewBoardSettings(height, width, bombs, seed[0])
+	} else {
+		boardSettings = board.NewBoardSettings(height, width, bombs, time.Now().UnixNano())
+	}
+
+	board, err := board.NewBoard(boardSettings)
 	if err != nil {
 		return Game{}, fmt.Errorf("unable to create new game: %v", err)
 	}
