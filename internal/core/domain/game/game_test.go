@@ -166,8 +166,8 @@ var _ = Describe("Game", func() {
 		When("the game is no longer in progress", func() {
 			It("returns an error", func() {
 				/**
-					Game board:
-					{"1", "X"},
+				Game board:
+				{"1", "X"},
 				*/
 
 				// Arrange
