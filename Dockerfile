@@ -1,6 +1,7 @@
-FROM golang:1.19 as build
+# BACKEND
 
-# Setup folders
+FROM golang:1.19 as backend
+
 WORKDIR /app
 
 COPY go.mod .
@@ -9,12 +10,21 @@ RUN go mod download
 
 COPY . .
 
-# Build the Go app
 RUN go build -o /minesweeper-go
 
-# Expose port 8080 to the outside world
 EXPOSE 8080
 
-# Run the executable
 CMD [ "/minesweeper-go" ]
 
+
+# DATABASE
+
+FROM --platform=linux/amd64 mysql:5.7 as mysql-db
+
+ENV MYSQL_DATABASE="api-minesweeper-db" \
+    MYSQL_ROOT_PASSWORD="api-minesweeper" \
+    MYSQL_ROOT_HOST="%"
+
+# ADD schema.sql /docker-entrypoint-initdb.d
+
+EXPOSE 3306

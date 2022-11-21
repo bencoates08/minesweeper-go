@@ -1,22 +1,21 @@
 package gameService_test
 
 import (
-	"minesweeper-go/internal/core/ports"
-	. "minesweeper-go/internal/mocks"
+	// . "minesweeper-go/internal/mocks"
 
 	"github.com/golang/mock/gomock"
 	. "github.com/onsi/ginkgo/v2"
-	. "github.com/onsi/gomega"
+	// . "github.com/onsi/gomega"
 )
 
 var _ = Describe("Game", func() {
 	ctrl := gomock.NewController(GinkgoT())
   defer ctrl.Finish()
 	
-	var MockGamesRepository ports.GamesRepository
+	// var MockGamesRepository ports.GamesRepository
 
 	BeforeEach(func() {
-		MockGamesRepository = NewMockGamesRepository(ctrl)
+		// MockGamesRepository = NewMockGamesRepository(ctrl)
 	})
 
 	Describe("Get", func() {

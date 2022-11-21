@@ -1,17 +1,21 @@
 version: "3.9"
 
 services:
-  app:
+  backend:
+    image: "minesweeper:backend-latest"
     container_name: api-minesweeper
     depends_on:
-      - mysql
+      - mysql-db
     environment:
       MYSQL_HOST: api-minesweeper-mysql.db.internal
       MYSQL_USER: api-minesweeper
       MYSQL_PASSWORD: api-minesweeper
       MYSQL_DB: api-minesweeper-db
     tty: true
-    build: .
+    build:
+      context: ./
+      dockerfile: Dockerfile
+      target: backend
     ports:
       - 8080:8080
     restart: on-failure
@@ -22,16 +26,17 @@ services:
         aliases:
           - api-minesweeper.app.internal
 
-  mysql:
+  mysql-db:
+    image: "minesweeper:database-latest"
     container_name: api-minesweeper-db
+    tty: true
+    build:
+      context: ./
+      dockerfile: Dockerfile
+      target: mysql-db
     platform: linux/x86_64
-    image: mysql:5.7
     volumes:
       - minesweeper-mysql-data:/var/lib/mysql
-    environment:
-      MYSQL_ROOT_PASSWORD: api-minesweeper
-      MYSQL_DATABASE: api-minesweeper-db
-      MYSQL_ROOT_HOST: "%"
     networks:
       api-minesweeper:
         aliases:
