@@ -25,6 +25,6 @@ ENV MYSQL_DATABASE="api-minesweeper-db" \
     MYSQL_ROOT_PASSWORD="api-minesweeper" \
     MYSQL_ROOT_HOST="%"
 
-# ADD schema.sql /docker-entrypoint-initdb.d
+ADD ./docker/schema.sql /docker-entrypoint-initdb.d
 
 EXPOSE 3306
