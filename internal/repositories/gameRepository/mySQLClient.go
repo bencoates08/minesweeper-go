@@ -4,8 +4,6 @@ import (
 	"context"
 	"database/sql"
 	"encoding/json"
-	"fmt"
-	"log"
 	"minesweeper-go/internal/core/domain/game"
 )
 
@@ -96,9 +94,6 @@ func (dc DatastoreClient) Save(ctx context.Context, currentGame game.Game) error
 		}
 		return err
 	}
-
-	fmt.Println(gameExists)
-	log.Println(gameExists)
 
 	if gameExists {
 		query := `UPDATE games SET
