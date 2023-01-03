@@ -1,0 +1,14 @@
+.layout {
+  min-height: 100vh;
+  display: grid;
+  grid-template-rows: min-content auto;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+}
