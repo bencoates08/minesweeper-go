@@ -1,0 +1,90 @@
+$noise: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAYAAABw4pVUAAAAAXNSR0IArs4c6QAABCpJREFUeF7tnc3HVVEUxs8uKSklJZKSkppEUvoQ6UMkIokmJU1qGtGkPyGalUgkmkSzRCSlpESDEolEJBJJlOjkzO5e57V+73EncX/v9Dn73HuetZ/1rHXP3vstbduubfK/pYA/A/wM4PcB3w74G8BXjTn+E4w/lOGllOsZ3rbtgVG8GJCGAmpAwoxSIYEQU1aes0xZgR9KOXpIIExTTxSmqffJIYVp6pNu6sfHrNNfwfiDgN8FvKrTp7j2D4x/CTj1Ye9g/C7AFw15/q4PMSA5YwYk8KNCBpaVpqxcYaaswI8eEgjR1HMFVUWNpt40Vllhwlj2jhDSKWQn1MnzAX8A+GnAHwNOP27SDH8L918D+GfA6X0O9SnzRu9vQJrGgIQZp0JMWdWUUCEqpGJADwkTQoWoEBWSVa7/nUIOQ509G/C/gD8cs8/ZDOOfAr53zD6H+hB6H0ON7/7YhxiQPGIGJPCjQgIhpqxcQaaswI8eEgjR1HMFaeqBH6usQIhlb66gXtl7Aer0i2P2IWdhPMGX4IITgD8BPF0s3TTNexj/HfCv9ICxDzEgOWMGJPCjQgIhpqxcQaaswI8eMrAP0dQHuHq3yEFT19QHTJmmmThTPwb0vAB8H+A3Ad8NOO2Dp3Vjy+H+cwGndVfrYTyte7sW+xADkjNqQAI/KiQQYsrKFWTKCvzoIYEQTT1XkKYe+LHKCoRY9uYK6pW9lHI2QZ19A/BTgNO242rta7xXKaV6oIi3bTsTPn/1oDa1f/EOGP88w0sp1UkS3U8nBmS8iBiQqrNVIb3pZMrKFWbKGuVHD+nPFk09UZCm3ifHKitwYtk7Qsh03him585Oo2LcAtcsAPwb4LTYmTp1+i2MHvE1XPAb8OrEOgPSNAYkzBgVYsqqpoQKUSEVA3pImBAqRIWokKzy/O8UMgfq5KOA3wac+gBaJEAnT8+Cz18xpA+Y4tqFMP4n4NsA/zWKd32IAckZMyCBHxUSCDFl5QoyZQV+9JBAiKaeK0hTD/xYZQVCLHtzBfXKXlp3RUsh70CdvRhwWjdF+0fuwf3pgDJaXU/72GmRxxH4ftW2664PMSA5YwYk8KNCAiGmrFxBpqzAjx4SCNHUcwVp6oEfq6xAiGVvrqBe2VsdoDXFWFr39AXq7D2A/wB8BuC3AF8GOD3fBhi/DvArgFeHjHZ9iAHJGTMggR8VEgghSZuycoWZsgI/ekggRFPPFaSpD0zJmvqkm/q5Md9XXIXxdB4V5Xja4USHUNJBzifh+6dHhZdSPmTj27Y9D/evDlbo+hADkjNmQAI/KiQQQq9YTVmJwkxZfXL0kMCJpp57lKYe+LHKGvjTxsSZOp1s/RHq6JWAXwZ8I+DUZ2yF8QQ/gguWAE776Onzq/+3Pp196gYkp9SABH5USCDElEVJKcerlPUPC43Doh9UOWoAAAAASUVORK5CYII=");
+// $hearts: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAANwAAADcCAYAAAAbWs+BAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH4gIUARQAHY8+4wAAApBJREFUeNrt3cFqAjEUhlEjvv8rXzciiiBGk/He5JxdN2U649dY+KmnEwAAAAAv2uMXEeGOwERntwAEB4IDBAeCAwQHggPBAYIDwQGCA8GB4ADBgeAAwYHgAMGB4EBwgOCgpkuKq2it/r8Li2hbvGKqP6s/PycnHHv9YvSWEgQHCA4EBwgOBAeCAwQHggMEByXM+QRUE6D3suwuPafDn5MTDg50KXnVPSdxa54y/oYDwQGCA8EBggPBAYIDwYHggBE+X5rY3Y3Tey97Nn2eU+rnlGfaZa6Ft5SA4EBwgOBAcCA4QHAgOEBwIDjgZu60y1xrDPtIJxwgOBAcIDgQHAgOEBwIDhAcCA4EBwgOBAcIDgQHCA4EB4IDBAeCAwQHggPBAYIDwQGCA8GB4ADBgeAAwYHgAMGB4GADcz9y2McIgxMOBAeCAwQHggMEB4IDwQGCA8EBggPBATdP6+KIGPRdW7i1LCFi6ALfCQfeUoLgAMGB4ADBgeBAcIDgQHCA4CCdOVvK7quwveQgg7eRTjjwlhIQHAgOBAcIDgQHCA4EB4IDBAfl5dhSdl+17SX3F22rdLlOOBAcCA4QHAgOEBwIDgQHCA4EBwgO0qm5pez6Ce0uSym2jXTCgeAAwYHgQHCA4EBwgOBAcCA4QHBQ3vpbyu47Yns51OLbSCccCA4QHAgOBAcIDgQHCA4EB4ID5jDt+vkObjgFM9dywoHgAMGB4EBwgOBAcIDgQHAgOEBwsA5bysPveMLtpW2kEw4EBwgOBAcIDgQHggMEB4IDBAeCg33ZUqZ/Ql9sL20jnXCA4EBwIDhAcCA4QHAgOBAcIDgQHNOZai3DlhKccCA4QHAgOEBwIDgQHCA4AAAAAGA1VyxaWIohrgXFAAAAAElFTkSuQmCC");
+
+@mixin dithered-gradient($position, $start, $stop, $color) {
+  background: radial-gradient(
+    square at $position,
+    transparent $start,
+    $color $stop
+  );
+  mask: $noise,
+    radial-gradient(square at $position, transparent $start, #000 ($stop + 10%));
+}
+
+.homePage {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.controls {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.linkLeft,
+.linkRight {
+  filter: drop-shadow(6px 6px 0 black);
+  text-decoration: none;
+  font-family: var(--noto-font);
+  font-size: 1.5rem;
+  padding: 1rem 1.5rem;
+  margin: 1rem;
+
+  color: black;
+  background-color: rgb(210, 204, 204);
+  cursor: pointer;
+
+  &:hover {
+    filter: drop-shadow(0px 0px 0 black);
+    color: rgb(210, 204, 204);
+    background-color: rgb(82, 0, 176);
+  }
+}
+
+.transitionAll {
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 0.35s;
+
+  &:hover {
+    transition-property: all;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 0.35s;
+  }
+}
+
+@keyframes appearTitle {
+  0% {
+    opacity: 0%;
+    transform: translateY(50%);
+  }
+  100% {
+    opacity: 100%;
+    transform: translateY(0%);
+  }
+}
+
+@keyframes appearInputs {
+  0% {
+    opacity: 0%;
+  }
+  30% {
+    opacity: 00%;
+  }
+  100% {
+    opacity: 100%;
+  }
+}
+.inputAnimation {
+  animation: 2s cubic-bezier(0.4, 0, 0.2, 1) 0s 1 appearInputs;
+}
+
+.titleAnimation {
+  animation: 1.5s cubic-bezier(0.4, 0, 0.2, 1) 0s 1 appearTitle;
+}
