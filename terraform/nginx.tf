@@ -1,0 +1,22 @@
+resource "docker_image" "nginx" {
+  name         = "nginx:latest"
+  keep_locally = false
+}
+
+resource "docker_container" "nginx" {
+  image = docker_image.nginx.image_id
+  name  = "tutorial"
+
+  ports {
+    internal = 80
+    external = 8000
+  }
+  # upload {
+  #   source = "../nginx/index.html"
+  #   file = "/app/html/index.html"
+  # }
+  # upload {
+  #   source = "../nginx/ssl"
+  #   file = "/etc/nginx/ssl"
+  # }
+}
