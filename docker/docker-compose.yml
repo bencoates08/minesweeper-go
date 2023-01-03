@@ -2,7 +2,7 @@ version: "3.9"
 
 services:
   backend:
-    image: "minesweeper:backend-latest"
+    image: "minesweeper:backend"
     build:
       context: ../backend
       dockerfile: ./docker/Dockerfile
@@ -20,7 +20,7 @@ services:
 
   # Potentially update based on whether we want to use ssl or not
   nginx:
-    image: nginx
+    image: minesweeper:nginx
     build:
       context: ../nginx
       dockerfile: ../nginx/docker/Dockerfile
@@ -31,7 +31,7 @@ services:
       - "8080:8080"
 
   mysql-db:
-    image: "minesweeper:database-latest"
+    image: "minesweeper:database"
     build:
       context: ../backend
       dockerfile: ./docker/Dockerfile
