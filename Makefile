@@ -10,5 +10,5 @@ run_app:
 dev:
 	make run_docker && make run_app
 
-kill:
+down:
 	make stop_docker
