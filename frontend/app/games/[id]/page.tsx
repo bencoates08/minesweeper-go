@@ -1,23 +1,20 @@
-import MinesweeperCanvas from "../../../components/MinesweeperCanvas/MinesweeperCanvas";
+import getGameByID from "../../../apis/minesweeper-backend/getGame";
+import MinesweeperGame from "../../../components/MinesweeperGame/MinesweeperGame";
 
 interface CurrentGameProps {
   params: { id: string };
 }
 
+const getGame = async (id: string) => {
+  return getGameByID(id);
+};
+
 export default async function CurrentGame({ params }: CurrentGameProps) {
-  const boardExample = [
-    ["-", "2", "H", "H", "H"],
-    ["-", "2", "H", "H", "H"],
-    ["1", "3", "H", "H", "H"],
-    ["H", "H", "H", "H", "H"],
-    ["H", "H", "H", "H", "H"],
-  ];
+  const game = await getGame(params.id);
 
   return (
     <div>
-      <h1>Current Game</h1>
-      <p>{params.id}</p>
-      <MinesweeperCanvas board={boardExample} />
+      <MinesweeperGame game={game} />
     </div>
   );
 }

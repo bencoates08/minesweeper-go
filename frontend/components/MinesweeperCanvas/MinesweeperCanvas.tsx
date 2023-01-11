@@ -1,16 +1,12 @@
-"use client";
-
-// TODO: probably move this use client up to correct level
-
 import { useEffect, useRef } from "react";
 
-const SQUARE_SIZE = 50;
+const SQUARE_SIZE = 32;
 
 const FONT_SIZE = SQUARE_SIZE * 0.8;
 
 const SQUARE_COLOUR = "#B9B9B9";
 
-const HIDDEN_BORDER_WIDTH = 5;
+const HIDDEN_BORDER_WIDTH = 4;
 const HIDDEN_COLOUR_HIGHLIGHT = "#FDFDFD";
 const HIDDEN_COLOUR_SHADOW = "#767676";
 
@@ -27,10 +23,6 @@ const NUMBER_COLOURS = new Map<number, string>([
   [7, "#000000"],
   [8, "#808080"],
 ]);
-
-type MinesweeperCanvasProps = {
-  board: string[][];
-};
 
 const drawSquare = (ctx: CanvasRenderingContext2D, x: number, y: number) => {
   ctx.fillStyle = HIDDEN_COLOUR_HIGHLIGHT;
@@ -114,8 +106,29 @@ const drawBoard = (ctx: CanvasRenderingContext2D, board: string[][]) => {
   });
 };
 
+type MinesweeperCanvasProps = {
+  board: string[][];
+};
+
 const MinesweeperCanvas = ({ board }: MinesweeperCanvasProps) => {
   const canvasRef = useRef(null);
+
+  const handleCanvasClick = (
+    e: MouseEvent,
+    ctx: CanvasRenderingContext2D,
+    left: number,
+    top: number
+  ) => {
+    const x = e.x - left;
+    const y = e.y - top;
+
+    if (x < 0 || y < 0) return;
+
+    if (x > SQUARE_SIZE * board[0].length || y > SQUARE_SIZE * board.length)
+      return;
+
+    console.log(`x: ${x}, y: ${y}`);
+  };
 
   useEffect(() => {
     if (!canvasRef.current) return;
@@ -123,10 +136,31 @@ const MinesweeperCanvas = ({ board }: MinesweeperCanvasProps) => {
     const canvas: HTMLCanvasElement = canvasRef.current;
     const context = canvas.getContext("2d");
 
-    drawBoard(context!, board);
+    if (!context) return;
+
+    drawBoard(context, board);
+
+    // Correct mouse coordinates
+    let rect = canvas.getBoundingClientRect();
+    const handleResize = () => {
+      rect = canvas.getBoundingClientRect();
+    };
+    addEventListener("resize", handleResize);
+
+    const handleClick = (e: MouseEvent) =>
+      handleCanvasClick(e, context, rect.left, rect.top);
+    addEventListener("click", handleClick);
+
+    return () => {
+      removeEventListener("resize", handleResize);
+      removeEventListener("click", handleClick);
+    };
   }, []);
 
-  return <canvas ref={canvasRef} width="250" height="250" />;
+  const width = SQUARE_SIZE * board[0].length;
+  const height = SQUARE_SIZE * board.length;
+
+  return <canvas ref={canvasRef} width={width} height={height} />;
 };
 
 export default MinesweeperCanvas;

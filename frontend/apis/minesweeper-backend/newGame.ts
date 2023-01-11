@@ -20,6 +20,7 @@ const newGame = async (gameSettings: GameSettings): Promise<any> => {
       return Promise.reject("Error creating new game");
     }
 
+    // ! TODO: add game model and converter
     return response.json();
   } catch (error) {
     throw error;
