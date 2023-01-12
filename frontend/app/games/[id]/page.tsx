@@ -5,12 +5,8 @@ interface CurrentGameProps {
   params: { id: string };
 }
 
-const getGame = async (id: string) => {
-  return getGameByID(id);
-};
-
 export default async function CurrentGame({ params }: CurrentGameProps) {
-  const game = await getGame(params.id);
+  const game = await getGameByID(params.id);
 
   return (
     <div>
