@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "react";
 import reveal from "../../apis/minesweeper-backend/reveal";
+import { Game } from "../../models";
 
 const SQUARE_SIZE = 32;
 
@@ -96,7 +97,7 @@ const drawBoard = (ctx: CanvasRenderingContext2D, board: string[][]) => {
           drawEmptySquare(ctx, x, y);
           break;
         case "X":
-          alert("You lost!");
+          drawEmptySquare(ctx, x, y);
           break;
         default:
           if (!char.match(/[1-8]/)) {
@@ -111,11 +112,16 @@ const drawBoard = (ctx: CanvasRenderingContext2D, board: string[][]) => {
 };
 
 type MinesweeperCanvasProps = {
-  game: any;
-  setGame: (game: any) => void;
+  game: Game;
+  setGame: (game: Game) => void;
+  setGameOver: (gameOver: boolean) => void;
 };
 
-const MinesweeperCanvas = ({ game, setGame }: MinesweeperCanvasProps) => {
+const MinesweeperCanvas = ({
+  game,
+  setGame,
+  setGameOver,
+}: MinesweeperCanvasProps) => {
   const { board, id } = game;
   const canvasRef = useRef(null);
 

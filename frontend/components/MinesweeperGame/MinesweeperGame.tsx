@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import getGame from "../../apis/minesweeper-backend/getGame";
+import { Game } from "../../models";
 import MinesweeperCanvas from "../MinesweeperCanvas/MinesweeperCanvas";
 
 interface MinesweeperGameProps {
@@ -10,26 +11,36 @@ interface MinesweeperGameProps {
 
 const MinesweeperGame = ({ id }: MinesweeperGameProps) => {
   // TODO: Add game model
-  const [game, setGame] = useState<any>(null);
+  const [game, setGame] = useState<Game | null>(null);
   const [gameOver, setGameOver] = useState(false);
 
   useEffect(() => {
     const fetchGame = async () => {
       const game = await getGame(id);
       setGame(game);
-
-      if (game.state !== "in progress") setGameOver(true);
     };
 
     fetchGame();
   }, [id]);
 
+  useEffect(() => {
+    setGameOver(game?.state !== "in progress");
+  }, [game?.state]);
+
+  if (!game) return <div>Loading...</div>;
+
   return (
     <>
-      {gameOver ? (
-        <div>{`Game Over: ${game.state}`}</div>
-      ) : (
-        game && <MinesweeperCanvas game={game} setGame={setGame} />
+      {game && (
+        <>
+          <h1>{gameOver ? `Game Over: ${game.state}` : "Minesweeper"}</h1>
+          <MinesweeperCanvas
+            game={game}
+            setGame={setGame}
+            setGameOver={setGameOver}
+          />
+          <p>{`Cells Rermaining: ${game.cellsRemaining}`}</p>
+        </>
       )}
     </>
   );

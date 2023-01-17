@@ -1,6 +1,8 @@
-const getGame = async (gameID: string): Promise<any> => {
-  // TODO: think about replacing with config file
+import { Game } from "../../models";
+import { gameConverter } from "./converters";
 
+const getGame = async (gameID: string): Promise<Game> => {
+  // TODO: think about replacing with config file
   try {
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_HOST}/api/games/${gameID}`,
@@ -17,8 +19,7 @@ const getGame = async (gameID: string): Promise<any> => {
       return Promise.reject("Error getting game");
     }
 
-    // ! TODO: add game model and converter
-    return response.json();
+    return response.json().then((data) => gameConverter().fromAPI(data));
   } catch (error) {
     throw error;
   }

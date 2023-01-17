@@ -1,7 +1,7 @@
-import { GameSettings } from "../../models";
-import settingsConverter from "./settingsConverter";
+import { Game, GameSettings } from "../../models";
+import { gameConverter, settingsConverter } from "./converters";
 
-const newGame = async (gameSettings: GameSettings): Promise<any> => {
+const newGame = async (gameSettings: GameSettings): Promise<Game> => {
   const settings = settingsConverter().toAPI(gameSettings);
 
   // TODO: think about replacing with config file
@@ -20,8 +20,7 @@ const newGame = async (gameSettings: GameSettings): Promise<any> => {
       return Promise.reject("Error creating new game");
     }
 
-    // ! TODO: add game model and converter
-    return response.json();
+    return response.json().then((data) => gameConverter().fromAPI(data));
   } catch (error) {
     throw error;
   }

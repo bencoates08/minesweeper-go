@@ -1,8 +1,11 @@
+import { Game } from "../../models";
+import { gameConverter } from "./converters";
+
 const reveal = async (
   gameID: string,
   row: number,
   col: number
-): Promise<any> => {
+): Promise<Game> => {
   const position = { row, col };
 
   // TODO: think about replacing with config file
@@ -24,8 +27,7 @@ const reveal = async (
       return Promise.reject("Error requesting reveal");
     }
 
-    // ! TODO: add game model and converter
-    return response.json();
+    return response.json().then((data) => gameConverter().fromAPI(data));
   } catch (error) {
     throw error;
   }
