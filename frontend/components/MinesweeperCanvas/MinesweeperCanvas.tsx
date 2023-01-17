@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react";
+import reveal from "../../apis/minesweeper-backend/reveal";
 
 const SQUARE_SIZE = 32;
 
@@ -94,6 +95,9 @@ const drawBoard = (ctx: CanvasRenderingContext2D, board: string[][]) => {
         case "-":
           drawEmptySquare(ctx, x, y);
           break;
+        case "X":
+          alert("You lost!");
+          break;
         default:
           if (!char.match(/[1-8]/)) {
             throw new Error(`Invalid character: ${char}`);
@@ -107,15 +111,16 @@ const drawBoard = (ctx: CanvasRenderingContext2D, board: string[][]) => {
 };
 
 type MinesweeperCanvasProps = {
-  board: string[][];
+  game: any;
+  setGame: (game: any) => void;
 };
 
-const MinesweeperCanvas = ({ board }: MinesweeperCanvasProps) => {
+const MinesweeperCanvas = ({ game, setGame }: MinesweeperCanvasProps) => {
+  const { board, id } = game;
   const canvasRef = useRef(null);
 
-  const handleCanvasClick = (
+  const handleCanvasClick = async (
     e: MouseEvent,
-    ctx: CanvasRenderingContext2D,
     left: number,
     top: number
   ) => {
@@ -127,7 +132,12 @@ const MinesweeperCanvas = ({ board }: MinesweeperCanvasProps) => {
     if (x > SQUARE_SIZE * board[0].length || y > SQUARE_SIZE * board.length)
       return;
 
-    console.log(`x: ${x}, y: ${y}`);
+    const xCell = Math.ceil(x / SQUARE_SIZE);
+    const yCell = Math.ceil(y / SQUARE_SIZE);
+
+    const updatedGame = await reveal(id, yCell, xCell);
+
+    setGame(updatedGame);
   };
 
   useEffect(() => {
@@ -141,6 +151,7 @@ const MinesweeperCanvas = ({ board }: MinesweeperCanvasProps) => {
     drawBoard(context, board);
 
     // Correct mouse coordinates
+    // TODO: fix this
     let rect = canvas.getBoundingClientRect();
     const handleResize = () => {
       rect = canvas.getBoundingClientRect();
@@ -148,14 +159,14 @@ const MinesweeperCanvas = ({ board }: MinesweeperCanvasProps) => {
     addEventListener("resize", handleResize);
 
     const handleClick = (e: MouseEvent) =>
-      handleCanvasClick(e, context, rect.left, rect.top);
+      handleCanvasClick(e, rect.left, rect.top);
     addEventListener("click", handleClick);
 
     return () => {
       removeEventListener("resize", handleResize);
       removeEventListener("click", handleClick);
     };
-  }, []);
+  }, [game]);
 
   const width = SQUARE_SIZE * board[0].length;
   const height = SQUARE_SIZE * board.length;
