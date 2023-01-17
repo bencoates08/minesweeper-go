@@ -114,14 +114,9 @@ const drawBoard = (ctx: CanvasRenderingContext2D, board: string[][]) => {
 type MinesweeperCanvasProps = {
   game: Game;
   setGame: (game: Game) => void;
-  setGameOver: (gameOver: boolean) => void;
 };
 
-const MinesweeperCanvas = ({
-  game,
-  setGame,
-  setGameOver,
-}: MinesweeperCanvasProps) => {
+const MinesweeperCanvas = ({ game, setGame }: MinesweeperCanvasProps) => {
   const { board, id } = game;
   const canvasRef = useRef(null);
 

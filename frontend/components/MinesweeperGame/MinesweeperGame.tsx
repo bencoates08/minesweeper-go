@@ -31,11 +31,7 @@ const MinesweeperGame = ({ id }: MinesweeperGameProps) => {
   return (
     <>
       <h1>{gameOver ? `Game Over: ${game.state}` : "Minesweeper"}</h1>
-      <MinesweeperCanvas
-        game={game}
-        setGame={setGame}
-        setGameOver={setGameOver}
-      />
+      <MinesweeperCanvas game={game} setGame={setGame} />
       <p>{`Cells Rermaining: ${game.cellsRemaining}`}</p>
     </>
   );
