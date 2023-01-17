@@ -10,7 +10,6 @@ interface MinesweeperGameProps {
 }
 
 const MinesweeperGame = ({ id }: MinesweeperGameProps) => {
-  // TODO: Add game model
   const [game, setGame] = useState<Game | null>(null);
   const [gameOver, setGameOver] = useState(false);
 
@@ -31,17 +30,13 @@ const MinesweeperGame = ({ id }: MinesweeperGameProps) => {
 
   return (
     <>
-      {game && (
-        <>
-          <h1>{gameOver ? `Game Over: ${game.state}` : "Minesweeper"}</h1>
-          <MinesweeperCanvas
-            game={game}
-            setGame={setGame}
-            setGameOver={setGameOver}
-          />
-          <p>{`Cells Rermaining: ${game.cellsRemaining}`}</p>
-        </>
-      )}
+      <h1>{gameOver ? `Game Over: ${game.state}` : "Minesweeper"}</h1>
+      <MinesweeperCanvas
+        game={game}
+        setGame={setGame}
+        setGameOver={setGameOver}
+      />
+      <p>{`Cells Rermaining: ${game.cellsRemaining}`}</p>
     </>
   );
 };
