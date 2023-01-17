@@ -14,6 +14,10 @@ RUN go build -o /minesweeper-go
 
 EXPOSE 8080
 
+ENV DB_CONTAINER="minesweeper-database" \
+    DB_PASSWORD="minesweeper-database-password" \
+    DB_NAME="minesweeper-database-name"
+
 CMD [ "/minesweeper-go" ]
 
 
@@ -22,8 +26,8 @@ CMD [ "/minesweeper-go" ]
 
 FROM --platform=linux/amd64 mysql:5.7 as mysql-db
 
-ENV MYSQL_DATABASE="api-minesweeper-db" \
-    MYSQL_ROOT_PASSWORD="api-minesweeper" \
+ENV MYSQL_DATABASE="minesweeper-database-name" \
+    MYSQL_ROOT_PASSWORD="minesweeper-database-password" \
     MYSQL_ROOT_HOST="%"
 
 ADD ./docker/schema.sql /docker-entrypoint-initdb.d

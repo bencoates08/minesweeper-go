@@ -8,9 +8,9 @@ type AppConfig struct {
 
 type DatabaseConfig struct {
 	User      string `env:"DB_USER" envDefault:"root"`
-	Password  string `env:"DB_PASSWORD" envDefault:"api-minesweeper"`
-	Container string `env:"DB_HOST" envDefault:"api-minesweeper-db"`
-	Name      string `env:"DB_NAME" envDefault:"api-minesweeper-db"`
+	Password  string `env:"DB_PASSWORD" envDefault:""`
+	Container string `env:"DB_CONTAINER" envDefault:""`
+	Name      string `env:"DB_NAME" envDefault:""`
 }
 
 func NewAppConfig() (AppConfig, error) {
