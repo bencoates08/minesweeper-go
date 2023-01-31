@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import getGame from "../../apis/minesweeper-backend/getGame";
 import { Game } from "../../models";
 import MinesweeperCanvas from "../MinesweeperCanvas/MinesweeperCanvas";
+import styles from "./MinesweeperGame.module.scss";
 
 interface MinesweeperGameProps {
   id: string;
@@ -29,11 +30,16 @@ const MinesweeperGame = ({ id }: MinesweeperGameProps) => {
   if (!game) return <div>Loading...</div>;
 
   return (
-    <>
-      <h1>{gameOver ? `Game Over: ${game.state}` : "Minesweeper"}</h1>
+    <div>
+      <h1 className={styles.gameOver}>
+        {gameOver ? `Game Over: ${game.state}` : "Minesweeper"}
+      </h1>
+      <div className={styles.gameInfo}>
+        <p>{game.cellsRemaining}</p>
+      </div>
       <MinesweeperCanvas game={game} setGame={setGame} />
       <p>{`Cells Rermaining: ${game.cellsRemaining}`}</p>
-    </>
+    </div>
   );
 };
 

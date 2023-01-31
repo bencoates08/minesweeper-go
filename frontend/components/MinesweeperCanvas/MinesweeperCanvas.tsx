@@ -15,6 +15,8 @@ const HIDDEN_COLOUR_SHADOW = "#767676";
 const REVEALED_BORDER_COLOUR = "#777777";
 const REVEALED_BORDER_WIDTH = 1;
 
+const BOMB_BACKGROUND_COLOUR = "#FF0000";
+
 const NUMBER_COLOURS = new Map<number, string>([
   [1, "#0000FF"],
   [2, "#008000"],
@@ -83,6 +85,33 @@ const drawNumber = (
   ctx.fillText(String(value), x + SQUARE_SIZE / 2, y + FONT_SIZE);
 };
 
+const drawBomb = (ctx: CanvasRenderingContext2D, x: number, y: number) => {
+  // Render outer square border
+  ctx.fillStyle = REVEALED_BORDER_COLOUR;
+  ctx.fillRect(x, y, SQUARE_SIZE, SQUARE_SIZE);
+
+  // Render inner square colour
+  ctx.fillStyle = BOMB_BACKGROUND_COLOUR;
+  ctx.fillRect(
+    x + REVEALED_BORDER_WIDTH,
+    y + REVEALED_BORDER_WIDTH,
+    SQUARE_SIZE - 2 * REVEALED_BORDER_WIDTH,
+    SQUARE_SIZE - 2 * REVEALED_BORDER_WIDTH
+  );
+
+  // Render bomb
+  ctx.fillStyle = "#000000";
+  ctx.beginPath();
+  ctx.arc(
+    x + SQUARE_SIZE / 2,
+    y + SQUARE_SIZE / 2,
+    SQUARE_SIZE / 4,
+    0,
+    2 * Math.PI
+  );
+  ctx.fill();
+};
+
 const drawBoard = (ctx: CanvasRenderingContext2D, board: string[][]) => {
   board.forEach((row, rowIndex) => {
     row.forEach((char, colIndex) => {
@@ -97,7 +126,7 @@ const drawBoard = (ctx: CanvasRenderingContext2D, board: string[][]) => {
           drawEmptySquare(ctx, x, y);
           break;
         case "X":
-          drawEmptySquare(ctx, x, y);
+          drawBomb(ctx, x, y);
           break;
         default:
           if (!char.match(/[1-8]/)) {
@@ -154,14 +183,21 @@ const MinesweeperCanvas = ({ game, setGame }: MinesweeperCanvasProps) => {
     // Correct mouse coordinates
     // TODO: fix this
     let rect = canvas.getBoundingClientRect();
+
     const handleResize = () => {
       rect = canvas.getBoundingClientRect();
     };
-    addEventListener("resize", handleResize);
 
     const handleClick = (e: MouseEvent) =>
       handleCanvasClick(e, rect.left, rect.top);
-    addEventListener("click", handleClick);
+
+    if (game.state === "in progress") {
+      addEventListener("resize", handleResize);
+      addEventListener("click", handleClick);
+    } else {
+      removeEventListener("resize", handleResize);
+      removeEventListener("click", handleClick);
+    }
 
     return () => {
       removeEventListener("resize", handleResize);

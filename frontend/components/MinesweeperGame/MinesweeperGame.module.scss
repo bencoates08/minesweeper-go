@@ -1,0 +1,22 @@
+.gameOver {
+  position: absolute;
+  background-color: #ff0000;
+  top: 0;
+  left: 0;
+}
+
+.gameInfo {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  background-color: #b9b9b9;
+  border: #777777 1px solid;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 30px;
+  font-weight: bold;
+
+  p {
+    margin: 0;
+    padding: 10px;
+  }
+}

@@ -2,6 +2,20 @@ version: "3.9"
 
 name: minesweeper
 services:
+  frontend:
+    image: "minesweeper-frontend:latest"
+    build:
+      context: ../frontend
+      dockerfile: ./docker/development/Dockerfile
+      target: runner
+    container_name: minesweeper-frontend
+    depends_on:
+      - nginx
+    restart: on-failure
+    tty: true
+    ports:
+      - "3000:3000"
+
   backend:
     image: "minesweeper-backend:latest"
     build:
@@ -32,7 +46,6 @@ services:
     build:
       context: ../backend
       dockerfile: ./docker/Dockerfile
-      target: mysql-db
     platform: linux/x86_64
     container_name: minesweeper-database
     tty: true
