@@ -5,7 +5,7 @@ const getGame = async (gameID: string): Promise<Game> => {
   // TODO: think about replacing with config file
   try {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_HOST}/api/games/${gameID}`,
+      `${process.env.NEXT_PUBLIC_HOST}/games/${gameID}`,
       {
         method: "GET",
         headers: {

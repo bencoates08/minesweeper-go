@@ -10,7 +10,7 @@ const reveal = async (
 
   // TODO: think about replacing with config file
   const req = new Request(
-    `${process.env.NEXT_PUBLIC_HOST}/api/games/${gameID}/reveal`,
+    `${process.env.NEXT_PUBLIC_HOST}/games/${gameID}/reveal`,
     {
       method: "POST",
       headers: {

@@ -5,7 +5,7 @@ const newGame = async (gameSettings: GameSettings): Promise<Game> => {
   const settings = settingsConverter().toAPI(gameSettings);
 
   // TODO: think about replacing with config file
-  const req = new Request(`${process.env.NEXT_PUBLIC_HOST}/api/games`, {
+  const req = new Request(`${process.env.NEXT_PUBLIC_HOST}/games`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
