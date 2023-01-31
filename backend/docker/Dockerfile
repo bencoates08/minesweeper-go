@@ -24,7 +24,7 @@ CMD [ "/minesweeper-go" ]
 
 # DATABASE
 
-FROM mysql:8.0.32-oracle as mysql-db
+FROM mysql:8.0.32 as mysql-db
 
 ENV MYSQL_DATABASE="minesweeper-database-name" \
     MYSQL_ROOT_PASSWORD="minesweeper-database-password" \
