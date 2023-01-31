@@ -1,0 +1,59 @@
+version: "3.9"
+
+name: minesweeper
+services:
+  frontend:
+    image: "minesweeper-frontend:latest"
+    build:
+      context: ../../frontend
+      dockerfile: ./docker/development/Dockerfile
+      target: runner
+    container_name: minesweeper-frontend
+    depends_on:
+      - nginx
+    restart: on-failure
+    tty: true
+    ports:
+      - "3000:3000"
+
+  backend:
+    image: "minesweeper-backend:latest"
+    build:
+      context: ../../backend
+      dockerfile: ./docker/Dockerfile
+      target: backend
+    container_name: minesweeper-backend
+    depends_on:
+      - mysql-db
+    restart: on-failure
+    tty: true
+
+  # Potentially update based on whether we want to use ssl or not
+  nginx:
+    image: minesweeper-nginx:latest
+    build:
+      context: ../../nginx
+      dockerfile: ../nginx/docker/Dockerfile
+      target: nginx
+    container_name: minesweeper-nginx
+    depends_on:
+      - backend
+    ports:
+      - "8080:8080"
+
+  mysql-db:
+    image: "minesweeper-database:latest"
+    build:
+      context: ../backend
+      dockerfile: ./docker/Dockerfile
+    platform: linux/x86_64
+    container_name: minesweeper-database
+    tty: true
+    volumes:
+      - minesweeper-mysql-data:/var/lib/mysql
+
+volumes:
+  minesweeper-mysql-data:
+
+networks:
+  api-minesweeper:

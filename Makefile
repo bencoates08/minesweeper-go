@@ -1,14 +1,22 @@
-run_docker:
-	docker-compose -f docker/docker-compose.yml up -d
+# For testing full build and deployment
+development:
+	docker-compose -f docker/dev/docker-compose.yml up -d
 
-stop_docker:
-	docker-compose -f docker/docker-compose.yml down
+down-development:
+	docker-compose -f docker/dev/docker-compose.yml down
 
-run_app:
+# For testing local development
+local:
+	docker-compose -f docker/local-dev/docker-compose.yml up -d
+
+down-local:
+	docker-compose -f docker/local-dev/docker-compose.yml down
+
+run-frontend:
 	yarn --cwd frontend dev
 
 dev:
-	make run_docker && make run_app
+	make local && make run-frontend
 
 down:
-	make stop_docker
+	make down-local

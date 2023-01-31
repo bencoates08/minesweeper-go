@@ -3,14 +3,7 @@ const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
   experimental: { appDir: true },
-  async rewrites() {
-    return [
-      {
-        source: "/api/:path*",
-        destination: "http://localhost:8080/:path*", // Proxy to Backend
-      },
-    ];
-  },
+  output: "standalone",
 };
 
 module.exports = nextConfig;

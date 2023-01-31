@@ -1,4 +1,4 @@
-import { GameSettings } from "../../models";
+import { GameSettings } from "../../../models";
 
 type APISettings = {
   name: string;
@@ -7,7 +7,7 @@ type APISettings = {
   bombs: Number;
 };
 
-const settingsConverter = () => {
+export const settingsConverter = () => {
   return {
     toAPI: (settings: GameSettings): APISettings => {
       return {
@@ -28,5 +28,3 @@ const settingsConverter = () => {
     },
   };
 };
-
-export default settingsConverter;

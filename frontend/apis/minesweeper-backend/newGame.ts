@@ -1,11 +1,11 @@
-import { GameSettings } from "../../models";
-import settingsConverter from "./settingsConverter";
+import { Game, GameSettings } from "../../models";
+import { gameConverter, settingsConverter } from "./converters";
 
-const newGame = async (gameSettings: GameSettings): Promise<any> => {
+const newGame = async (gameSettings: GameSettings): Promise<Game> => {
   const settings = settingsConverter().toAPI(gameSettings);
 
   // TODO: think about replacing with config file
-  const req = new Request(`${process.env.NEXT_PUBLIC_HOST}/api/games`, {
+  const req = new Request(`${process.env.NEXT_PUBLIC_HOST}/games`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -20,7 +20,7 @@ const newGame = async (gameSettings: GameSettings): Promise<any> => {
       return Promise.reject("Error creating new game");
     }
 
-    return response.json();
+    return response.json().then((data) => gameConverter().fromAPI(data));
   } catch (error) {
     throw error;
   }

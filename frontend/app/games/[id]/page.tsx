@@ -1,3 +1,5 @@
+import MinesweeperGame from "../../../components/MinesweeperGame/MinesweeperGame";
+
 interface CurrentGameProps {
   params: { id: string };
 }
@@ -5,8 +7,7 @@ interface CurrentGameProps {
 export default async function CurrentGame({ params }: CurrentGameProps) {
   return (
     <div>
-      <h1>Current Game</h1>
-      <p>{params.id}</p>
+      <MinesweeperGame id={params.id} />
     </div>
   );
 }

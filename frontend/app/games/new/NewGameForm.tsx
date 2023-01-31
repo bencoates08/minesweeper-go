@@ -4,6 +4,7 @@ import { useState } from "react";
 import styles from "./NewGameForm.module.scss";
 import cn from "../../../utils/classnames";
 import newGame from "../../../apis/minesweeper-backend/newGame";
+import { useRouter } from "next/navigation";
 
 type NewGameForm = {
   name: string;
@@ -20,6 +21,7 @@ const defaultState: NewGameForm = {
 };
 
 export default function NewGameForm() {
+  const router = useRouter();
   const [state, setState] = useState<NewGameForm>(defaultState);
 
   function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
@@ -42,7 +44,7 @@ export default function NewGameForm() {
         bombs: parseInt(bombs),
       })
         .then((response) => {
-          console.log(response);
+          router.push(`/games/${response.id}`);
         })
         .catch((error) => {
           console.log(error);
