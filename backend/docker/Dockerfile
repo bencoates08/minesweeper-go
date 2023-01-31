@@ -20,7 +20,7 @@ CMD [ "/minesweeper-go" ]
 
 # DATABASE
 
-FROM --platform=linux/amd64 mysql:5.7 as mysql-db
+FROM --platform=linux/amd64 mysql:8.0.31 as mysql-db
 
 ENV MYSQL_DATABASE="api-minesweeper-db" \
     MYSQL_ROOT_PASSWORD="api-minesweeper" \
