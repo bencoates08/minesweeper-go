@@ -31,9 +31,9 @@ const MinesweeperGame = ({ id }: MinesweeperGameProps) => {
 
   return (
     <div>
-      <h1 className={styles.gameOver}>
-        {gameOver ? `Game Over: ${game.state}` : "Minesweeper"}
-      </h1>
+      {gameOver && (
+        <h1 className={styles.gameOver}>{`Game Over: ${game.state}`}</h1>
+      )}
       <div className={styles.gameInfo}>
         <p>{game.cellsRemaining}</p>
       </div>

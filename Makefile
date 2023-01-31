@@ -12,11 +12,11 @@ local:
 down-local:
 	docker-compose -f docker/local-dev/docker-compose.yml down
 
-frontend:
+run-frontend:
 	yarn --cwd frontend dev
 
 dev:
-	make run_docker && make frontend
+	make local && make run-frontend
 
 down:
 	make down-local

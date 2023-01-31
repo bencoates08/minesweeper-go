@@ -5,7 +5,7 @@ services:
   backend:
     image: "minesweeper-backend:latest"
     build:
-      context: ../backend
+      context: ../../backend
       dockerfile: ./docker/Dockerfile
       target: backend
     container_name: minesweeper-backend
@@ -18,7 +18,7 @@ services:
   nginx:
     image: minesweeper-nginx:latest
     build:
-      context: ../nginx
+      context: ../../nginx
       dockerfile: ../nginx/docker/Dockerfile
       target: nginx
     container_name: minesweeper-nginx
@@ -30,7 +30,7 @@ services:
   mysql-db:
     image: "minesweeper-database:latest"
     build:
-      context: ../backend
+      context: ../../backend
       dockerfile: ./docker/Dockerfile
     platform: linux/x86_64
     container_name: minesweeper-database

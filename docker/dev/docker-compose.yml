@@ -5,7 +5,7 @@ services:
   frontend:
     image: "minesweeper-frontend:latest"
     build:
-      context: ../frontend
+      context: ../../frontend
       dockerfile: ./docker/development/Dockerfile
       target: runner
     container_name: minesweeper-frontend
@@ -19,7 +19,7 @@ services:
   backend:
     image: "minesweeper-backend:latest"
     build:
-      context: ../backend
+      context: ../../backend
       dockerfile: ./docker/Dockerfile
       target: backend
     container_name: minesweeper-backend
@@ -32,7 +32,7 @@ services:
   nginx:
     image: minesweeper-nginx:latest
     build:
-      context: ../nginx
+      context: ../../nginx
       dockerfile: ../nginx/docker/Dockerfile
       target: nginx
     container_name: minesweeper-nginx
