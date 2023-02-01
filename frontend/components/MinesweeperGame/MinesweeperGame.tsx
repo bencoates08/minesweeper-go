@@ -30,15 +30,12 @@ const MinesweeperGame = ({ id }: MinesweeperGameProps) => {
   if (!game) return <div>Loading...</div>;
 
   return (
-    <div>
-      {gameOver && (
-        <h1 className={styles.gameOver}>{`Game Over: ${game.state}`}</h1>
-      )}
+    <div className={styles.gameWrapper}>
+      {gameOver && <h1 className={styles.gameOver}>{`you ${game.state}`}</h1>}
       <div className={styles.gameInfo}>
-        <p>{game.cellsRemaining}</p>
+        <p>{`${game.cellsRemaining} TO GO`}</p>
       </div>
       <MinesweeperCanvas game={game} setGame={setGame} />
-      <p>{`Cells Rermaining: ${game.cellsRemaining}`}</p>
     </div>
   );
 };

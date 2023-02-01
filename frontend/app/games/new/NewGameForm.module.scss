@@ -30,6 +30,8 @@
   filter: drop-shadow(6px 6px 0 black);
 
   &::placeholder {
+    font-family: var(--noto-font);
+    font-size: 2rem;
     color: rgb(120, 120, 120);
   }
 

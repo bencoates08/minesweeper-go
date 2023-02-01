@@ -54,7 +54,7 @@ export default function NewGameForm() {
   };
 
   return (
-    <form className={styles.form} onSubmit={handleSubmit}>
+    <form className={styles.form} onSubmit={handleSubmit} autoComplete="off">
       <input
         name="name"
         type="text"
