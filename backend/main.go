@@ -35,7 +35,7 @@ func main() {
 	gameService := gameService.New(gameRepository)
 	gameHandler := gameHandler.NewHTTPHandler(gameService)
 
-	router := gin.New()
+	router := gin.Default()
 	router.GET("/games/:id", gameHandler.Get)
 	router.POST("/games", gameHandler.Create)
 	router.POST("/games/:id/reveal", gameHandler.Reveal)
