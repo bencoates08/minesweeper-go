@@ -43,8 +43,6 @@ func (hdl *HTTPHandler) Create(c *gin.Context) {
 	}
 
 	c.JSON(201, BuildGameResponse(game))
-
-	log.Printf("Game created: %s", game.ID)
 }
 
 func (hdl *HTTPHandler) Reveal(c *gin.Context) {
